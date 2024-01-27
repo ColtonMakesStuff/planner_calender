@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bkg: #221b15;
+    --color-bkg2: #e5ccae;
+
+    --color-content: #625041;
+    
+    --color-accent1: #d2b694;
+    --color-accent2: #878787;
+
+    --font-sans: 'Roboto', sans-serif;
+    --font-serif: 'Roboto Slab', serif;
+  }
+}
