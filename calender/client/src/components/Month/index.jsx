@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 
 const Month = () => {
 
-let numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30,31];
+let numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30];
 let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];  
-let firstDay = "Saturday";
+let firstDay = "Monday";
 let miniDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const [windowSize, setWindowSize] = useState("");
 
