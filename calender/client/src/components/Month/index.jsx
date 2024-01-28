@@ -43,54 +43,11 @@ let testEventArray = [{
 
 ]
 
+// 
 
 const Month = ({date}) => {
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
  date = '2024-02-01';
-
-// handles resizing of the window
-const [windowSize, setWindowSize] = useState("");
-useEffect(() => {
-    const handleResize = () => {
-        setWindowSize(''); // Reset the state to an empty array
-        if (window.innerWidth > 768) {
-            setWindowSize('large');
-        } else {
-            setWindowSize('small');
-        }
-    };
-
-    // Call the function immediately to set the initial state
-    handleResize();
-
-    // Add the event listener
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup function
-    return () => {
-        window.removeEventListener('resize', handleResize);
-    };
-}, []);
-const [daysDisplay, setDaysDisplay] = useState([]);
-useEffect(() => {
- switch (windowSize) {
-    case "small":
-      setDaysDisplay(miniDays.map((day, index) => (
-        <h3 key={`${day}-${index}`} className=" flex justify-center w-full">
-          {day}
-        </h3>
-      )));
-      break;
-    case "large":
-      setDaysDisplay(days.map((day, index) => (
-        <h3 key={`${day}`} className=" flex justify-center w-full">
-          {day}
-        </h3>
-      )));
-      break;
- }
-}, [windowSize]);
-
 
 let myMonth = new DateRangeInfo({selectedDate: date, range: "week"});
 console.log(myMonth.range);
@@ -161,6 +118,11 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
   </div>
  ));
  
+ const miniDaysDisplay = miniDays.map((day, index) => (
+  <h3 key={`${day}-${index}`} className=" flex justify-center w-full">
+    {day}
+  </h3>
+))
 
 
 
@@ -169,11 +131,12 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
          <h1 className='flex justify-center text-2xl font-thin mb-5'>{myMonth.getNameOfMonth()}</h1>
         
          <div className="flex flex-row justify-between items-center w-5/6 md:w-3/4 mx-auto">
-          {daysDisplay}
+          {miniDaysDisplay}
          </div>
          <div className="grid grid-cols-7 gap-0 w-5/6 md:w-3/4 mx-auto">
            {dateSquares}
          </div>
+         <h1 className='flex justify-center text-2xl font-thin mt-5'>{myMonth.year}</h1>
       </div>
      )
      
