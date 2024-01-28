@@ -2,18 +2,74 @@ import classes from './index.module.css';
 import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
 
+let testEventArray = [{
+  title: "test event",
+  date: "2024-02-01",
+  startTime: "12:00",
+  endTime: "13:00",
+  description: "this is a test event",
+  location: "test location",
+  color: "red",
+  allDay: false,
+  recurring: false,
+  recurringDays: [],
+  recurringEnds: false,
+  recurringFrequency: "",
+  recurringStartDate: "",
+  recurringEndDate: "",
+  recurringType: "",
+  userId: "6160b4b4b8b7d4b4a0f3b3b4",
+  __typename: "Event"
+},
+{
+  title: "test event",
+  date: "2024-02-12",
+  startTime: "12:00",
+  endTime: "13:00",
+  description: "this is a test event",
+  location: "test location",
+  color: "red",
+  allDay: false,
+  recurring: false,
+  recurringDays: [],
+  recurringEnds: false,
+  recurringFrequency: "",
+  recurringStartDate: "",
+  recurringEndDate: "",
+  recurringType: "",
+  userId: "6160b4b4b8b7d4b4a0f3b3b4",
+  __typename: "Event"
+},
 
-const Month = () => {
-
-let testDate = '2024-2-06';
+]
 
 
-let numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30];
-let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];  
-let firstDay = "Monday";
+const Month = ({date}) => {
+ date = '2024-05-01';
+
+
+let myMonth = new DateRangeInfo({selectedDate: date, range: "week"});
+console.log(myMonth.range);
+console.log(myMonth.selectedDate)
+myMonth.establishDateInfo()
+
+//this part will set the layout of the calender
+console.log(myMonth.day);
+
+let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];  
+let firstDay = myMonth.getNameOfDay();
 let miniDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-const [windowSize, setWindowSize] = useState("");
 
+
+let blanksBeforeDates = Array(days.indexOf(firstDay)).fill(" ");
+let numbers = Array.from({length: myMonth.daysInMonth}, (_, i) => i + 1);
+let combinedArray = [...blanksBeforeDates, ...numbers];
+
+let dateList = myMonth.getDatesInMonth();
+console.log(dateList);
+
+// handles resizing of the window
+const [windowSize, setWindowSize] = useState("");
 useEffect(() => {
     const handleResize = () => {
         setWindowSize(''); // Reset the state to an empty array
@@ -35,9 +91,7 @@ useEffect(() => {
         window.removeEventListener('resize', handleResize);
     };
 }, []);
-
 const [daysDisplay, setDaysDisplay] = useState([]);
-
 useEffect(() => {
  switch (windowSize) {
     case "small":
@@ -56,55 +110,6 @@ useEffect(() => {
       break;
  }
 }, [windowSize]);
-
-
-let testEventArray = [{
-  title: "test event",
-  date: "2021-10-01",
-  startTime: "12:00",
-  endTime: "13:00",
-  description: "this is a test event",
-  location: "test location",
-  color: "red",
-  allDay: false,
-  recurring: false,
-  recurringDays: [],
-  recurringEnds: false,
-  recurringFrequency: "",
-  recurringStartDate: "",
-  recurringEndDate: "",
-  recurringType: "",
-  userId: "6160b4b4b8b7d4b4a0f3b3b4",
-  __typename: "Event"
-},
-{
-  title: "test event",
-  date: "2021-10-02",
-  startTime: "12:00",
-  endTime: "13:00",
-  description: "this is a test event",
-  location: "test location",
-  color: "red",
-  allDay: false,
-  recurring: false,
-  recurringDays: [],
-  recurringEnds: false,
-  recurringFrequency: "",
-  recurringStartDate: "",
-  recurringEndDate: "",
-  recurringType: "",
-  userId: "6160b4b4b8b7d4b4a0f3b3b4",
-  __typename: "Event"
-},
-
-]
-
-// i need to find out waht day of the week the first day of the month is on and then i need to add the correct number of blank spaces to the beginning of the array
-
-let blanksBeforeNumbers = Array(days.indexOf(firstDay)).fill(" ");
-
-let combinedArray = [...blanksBeforeNumbers, ...numbers];
-
 
     const squares = Array.from({ length: 42 }).map((_, i) => (
         <div key={i} className="flex items-end aspect-w-3 aspect-h-3 border border-black">

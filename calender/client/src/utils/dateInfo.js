@@ -10,6 +10,7 @@ class DateRangeInfo {
        this.day = null
        this.month = null
        this.year = null
+       this.dayOfWeek = null
     }
    
     getStartDate() {
@@ -31,6 +32,7 @@ class DateRangeInfo {
        this.getStartDate();
        this.splitDate();
        this.daysInMonth = this.getDaysInMonth(this.year, this.month);
+       this.dayOfWeek = this.getDayOfWeek(this.startDate);
        console.log(`there are ${this.daysInMonth} days in the month of ${this.month}`);
     }
    
@@ -49,18 +51,13 @@ class DateRangeInfo {
    
     getDatesInMonth() {
        // Method to populate the dateArray property of each month object with an array of date strings
-       let months = this.getMonthsInYear();
-       for (let i = 0; i < months.length; i++) {
-           let dates = [];
-           for (let day =1; day <= months[i].daysInMonth; day++) { 
-           let monthStr = i < 10 ? `0${i}` : `${i}`;
-           let dayStr = day < 10 ? `0${day}` : `${day}`;
-           let dateString = `${this.year}-${monthStr}-${dayStr}`;
-           dates.push(dateString);
-           }
-           months[i].dateArray = dates;
-       }
-       console.log(months);
+        let dates = [];
+        for (let day = 1; day <= this.daysInMonth; day++) { 
+        let dayStr = day < 10 ? `0${day}` : `${day}`;
+        let dateString = `${this.year}-${this.month}-${dayStr}`;
+        dates.push(dateString);
+        }
+        return dates;
     }
    
     getDaysInMonth(year, month) {
@@ -115,7 +112,7 @@ class DateRangeInfo {
         // Method to get the name of the day of the week for a given date
         let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"];
         // Method to get the name of the day of the week for a given date
-        let nameOfDay = daysOfWeek[+this.day];
+        let nameOfDay = daysOfWeek[+this.dayOfWeek];
         return nameOfDay;
    }
 
@@ -129,4 +126,9 @@ class DateRangeInfo {
    
 }
 
+// let test = new DateRangeInfo({selectedDate: "2020-02-29", range: "week"});
+// test.establishDateInfo();
+// console.log(test.getNameOfDay());
+// console.log(test.getNameOfMonth());
+// test.getWeekInfo();
 export default DateRangeInfo;
