@@ -117,14 +117,7 @@ monthAtAGlance = [...blanksArray, ...datesArray];
 const dateSquares = Array.from({ length: 42 }).map((_, i) => (
   <div 
   key={i} 
-  className={`flex items-end aspect-w-1 aspect-h-1 ${monthAtAGlance[i]?.day && monthAtAGlance[i].day >= 1 ? classes.valid_day : classes.invalid_day} cursor-pointer`}
-  // HEY!!! this is where i need to add the onClick function to go to the week view
-  onClick={() => {
-     if (monthAtAGlance[i]?.day && monthAtAGlance[i].day >= 1) {
-       console.log(monthAtAGlance[i].date);
-     }
-  }}
->
+  className={`flex items-end aspect-w-1 aspect-h-1 cursor-pointer`}>
      <div className="flex flex-col justify-center h-full">
          <div className="flex justify-center" >
          </div>
@@ -141,10 +134,22 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
   </h3>
 ))
 
-let monthSquare;
+let monthSquare = (
+    <div className="flex flex-col text-content justify-center m-2 cursor-pointer hover:bg-accent-1 rounded-md border-2 border-transparent active:border-accent-2" onClick={console.log('lol')}>
+    <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
+        <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
+        {miniDaysDisplay}
+        </div>
+        <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
+        {dateSquares}
+        </div>
+    </div>)
 
 
 
+
+
+let monthSquares =[ monthSquare, monthSquare, monthSquare , monthSquare, monthSquare, monthSquare, monthSquare, monthSquare, monthSquare, monthSquare, monthSquare, monthSquare]
 
 
     return (
@@ -153,149 +158,9 @@ let monthSquare;
          </h1>
          <div className=" text-xs sm:text-xs md:text-sm grid grid-cols-3 gap-0 w-full  font-bold mx-auto">
 
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
             
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
 
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
-            
-            <div className="flex flex-col text-content justify-center m-2">
-            <p className='flex justify-center text-xl font-thin mt-5'>{myMonth.getNameOfMonth()}</p>
-                <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
-                {miniDaysDisplay}
-                </div>
-                <div className="grid grid-cols-7 gap-0 w-full  font-bold mx-auto">
-                {dateSquares}
-                </div>
-            </div>
-
-
+        {monthSquares}
             
 
 
