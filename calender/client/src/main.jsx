@@ -2,12 +2,14 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from './App.jsx'
-import Home from './pages/Home';
-import Signup from './pages/Signup';
-import LoginPage from './pages/LoginPage';
-import SingleThought from './pages/SingleThought';
+import Home from './pages/oldPages/Home';
+import Signup from './pages/oldPages/Signup';
+import LoginPage from './pages/oldPages/LoginPage';
+import SingleThought from './pages/oldPages/SingleThought';
 import ErrorPage from './pages/ErrorPage';
-import CalenderHome from './pages/CalenderHome';
+import MonthPage from './pages/MonthPage.jsx';
+import WeekPage from './pages/WeekPage.jsx';
+import YearPage from './pages/YearPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -27,9 +29,16 @@ const router = createBrowserRouter([
       }, {
         path: '/thoughts/:thoughtId',
         element: <SingleThought />
+      }, 
+      {
+        path: '/year',
+        element: <YearPage />
+      },{
+        path: '/month',
+        element: <MonthPage />
       }, {
-        path: 'CalenderHome',
-        element: <CalenderHome />
+        path: '/week',
+        element: <WeekPage />
       }
     ]
   },

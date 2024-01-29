@@ -1,0 +1,8 @@
+.valid_day:hover {
+    background-color: var(--color-accent1);
+   }
+   
+   .invalid_day:hover {
+    cursor:default;
+   }
+   

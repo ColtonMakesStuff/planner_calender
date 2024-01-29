@@ -1,6 +1,6 @@
-import classes from './index.module.css';
 import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
+import classes from './index.module.css';
 
 let testEventArray = [{
   title: "test event",
@@ -45,7 +45,7 @@ let testEventArray = [{
 
 // 
 
-const Month = ({date}) => {
+const Year = ({date}) => {
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
  date = '2024-02-01';
 
@@ -98,7 +98,7 @@ monthAtAGlance = [...blanksArray, ...datesArray];
 const dateSquares = Array.from({ length: 42 }).map((_, i) => (
   <div 
   key={i} 
-  className={`flex items-end aspect-w-3 aspect-h-3 border border-accent-2 ${monthAtAGlance[i]?.day && monthAtAGlance[i].day >= 1 ? classes.valid_day : classes.invalid_day} cursor-pointer`}
+  className={`flex items-end aspect-w-3 aspect-h-3 ${monthAtAGlance[i]?.day && monthAtAGlance[i].day >= 1 ? classes.valid_day : classes.invalid_day} cursor-pointer`}
   // HEY!!! this is where i need to add the onClick function to go to the week view
   onClick={() => {
      if (monthAtAGlance[i]?.day && monthAtAGlance[i].day >= 1) {
@@ -108,9 +108,6 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
 >
      <div className="flex flex-col justify-center h-full">
          <div className="flex justify-center" >
-           {/* THIS NEEDS TO BE REFACTORED WHEN ACTUAL DATA IS BEING BROUGHT IN!!!! */}
-           {monthAtAGlance[i]?.event ? <div className='w-[calc(3vw)] h-[calc(3vw)] rounded-full mt-1' style={{backgroundColor: 'black'}}></div> : <h3></h3>}
-           {/* */}
          </div>
          <div className="mt-auto flex justify-center">
              <h2>{monthAtAGlance[i]?.day || ''}</h2>
@@ -143,4 +140,4 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
      
 }
 
-export default Month;
+export default Year;

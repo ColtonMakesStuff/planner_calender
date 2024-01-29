@@ -2,10 +2,10 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
-import CommentList from '../components/CommentList';
-import CommentForm from '../components/CommentForm';
+import CommentList from '../../components/oldComponents/CommentList';
+import CommentForm from '../../components/oldComponents/CommentForm';
 
-import { QUERY_SINGLE_THOUGHT } from '../utils/queries';
+import { QUERY_SINGLE_THOUGHT } from '../../utils/queries';
 
 const SingleThought = () => {
   // Use `useParams()` to retrieve value of the route parameter `:profileId`

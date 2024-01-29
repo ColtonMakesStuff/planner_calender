@@ -78,7 +78,7 @@ class DateRangeInfo {
    
        let list = this.generateDatesList(weekStart, weekEnd);
    
-       console.log(list);
+       return list ;
     }
    
     calculateWeekStart(dayOfWeek) {
