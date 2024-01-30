@@ -2,6 +2,7 @@ import classes from './index.module.css';
 import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
 import { useNavigate } from 'react-router-dom';
+import HandleIncrement from '../HandleIncrement';
 
 let testEventArray = [{
   title: "test event",
@@ -48,8 +49,8 @@ let testEventArray = [{
 
 const Month = ({date}) => {
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
-let myMonth = new DateRangeInfo({selectedDate: date, range: "week"});
-console.log(myMonth.range);
+let myMonth = new DateRangeInfo({selectedDate: date, range: "month"});
+let range = myMonth.range;
 console.log(myMonth.selectedDate)
 myMonth.establishDateInfo()
 
@@ -166,8 +167,7 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
            {dateSquares}
          </div>
          <h1 className='flex justify-center text-2xl font-thin mt-5'>{myMonth.year}</h1>
-         <button onClick={() => handleClick(-1)}>Go back</button>
-         <button onClick={() => handleClick(+1)}>Go forward</button>
+         <HandleIncrement date={date} range={range}/>
       </div>
      )
      
