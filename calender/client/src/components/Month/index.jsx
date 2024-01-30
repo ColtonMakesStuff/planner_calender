@@ -57,9 +57,9 @@ myMonth.establishDateInfo()
 //this part will set the layout of the calender
 console.log(myMonth.day);
 
-let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ];  
+let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' , 'Sunday'];  
 let firstDay = myMonth.getNameOfDay();
-let miniDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+let miniDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 let dateList = myMonth.getDatesInMonth();
 console.log(dateList);
 let monthAtAGlance = [];

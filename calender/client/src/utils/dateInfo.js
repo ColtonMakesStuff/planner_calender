@@ -83,7 +83,7 @@ class DateRangeInfo {
    
     calculateWeekStart(dayOfWeek) {
        // Helper method to calculate the start of the week containing the selected date
-       return this.day - dayOfWeek - 1;
+       return this.day - dayOfWeek;
     }
    
     generateDatesList(weekStart, weekEnd) {
@@ -122,6 +122,23 @@ class DateRangeInfo {
        // Method to get the name of the month for a given date
        let nameOfMonth = monthsOfYear[+this.month + -1];
        return nameOfMonth;
+   }
+   getWeekNumber() {
+      let weekNumber;
+      let date = +this.getWeekInfo()[1].match(/(\d{4})-(\d{2})-(\d{2})/)[3]
+      if (date < 7) {
+         weekNumber = 1;
+      } else if (date < 14) {
+         weekNumber = 2;
+      } else if (date < 21) {
+         weekNumber = 3;
+      } else if (date < 28) {
+         weekNumber = 4;
+      } else {
+         weekNumber = 5;
+      } 
+
+      return weekNumber
    }
    
 }
