@@ -1,6 +1,7 @@
 import classes from './index.module.css';
 import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
+import { useNavigate } from 'react-router-dom';
 
 let testEventArray = [{
   title: "test event",
@@ -51,6 +52,33 @@ let myMonth = new DateRangeInfo({selectedDate: date, range: "week"});
 console.log(myMonth.range);
 console.log(myMonth.selectedDate)
 myMonth.establishDateInfo()
+
+const navigate = useNavigate();
+
+const [currentMonth, setCurrentMonth] = useState(myMonth.month);
+const [currentYear, setCurrentYear] = useState(myMonth.year);
+
+
+const handleClick = (increment) => {
+  let newMonth = +currentMonth + increment;
+  if (newMonth < 10) {
+     newMonth = `0${newMonth}`;
+  }
+  let newYear = currentYear;
+ 
+  if (newMonth > '12') {
+     newMonth = '01';
+     newYear = +currentYear + 1;
+  }
+  if (newMonth < '01') {
+     newMonth = '12';
+     newYear = +currentYear - 1;
+  }
+  setCurrentMonth(newMonth);
+  setCurrentYear(newYear);
+  navigate(`/month/${newYear}${newMonth}01`);
+ };
+ 
 
 // i need to find  the currnt day and set it to be highlighted if it is represented in the calender period being shown
 
@@ -138,6 +166,8 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
            {dateSquares}
          </div>
          <h1 className='flex justify-center text-2xl font-thin mt-5'>{myMonth.year}</h1>
+         <button onClick={() => handleClick(-1)}>Go back</button>
+         <button onClick={() => handleClick(+1)}>Go forward</button>
       </div>
      )
      
