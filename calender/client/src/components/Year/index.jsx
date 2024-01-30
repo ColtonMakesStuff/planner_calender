@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
 import classes from './index.module.css';
+import { useParams } from "react-router-dom";
 
 let testEventArray = [{
   title: "test event",
