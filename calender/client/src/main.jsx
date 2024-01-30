@@ -31,13 +31,13 @@ const router = createBrowserRouter([
         element: <SingleThought />
       }, 
       {
-        path: '/year',
+        path: '/year/:year',
         element: <YearPage />
       },{
-        path: '/month',
+        path: '/month/:month',
         element: <MonthPage />
       }, {
-        path: '/week',
+        path: '/week/:weekday',
         element: <WeekPage />
       }
     ]

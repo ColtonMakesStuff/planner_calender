@@ -46,7 +46,7 @@ let testEventArray = [{
 ]
 
 const Week = ({ date }) => {
- const selectedDate = '2024-02-01';
+ const selectedDate = date;
  let myWeek = new DateRangeInfo({ selectedDate, range: "week" });
 
  // Establish date info and get week info
@@ -117,7 +117,7 @@ const Week = ({ date }) => {
     <div className="flex flex-col items-center text-content justify-center h-screen">
       <div className="flex flex-col w-4/5 md:w-2/5 h-18">
         <div className='flex mb-2 ml-7 mr-8 text-xl font-extralight justify-between'>
-          <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer'>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[3]]}</h2>
+          <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer'>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1]}</h2>
           <h2 className='text-sm mt-3'>week 1</h2>
         </div>
         {daySections}

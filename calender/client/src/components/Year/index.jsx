@@ -47,16 +47,8 @@ let testEventArray = [{
 // 
 
 const Year = ({date}) => {
+
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
- date = '2024-01-01';
-
-
-
-
-
-
-
-
 
 let myMonth = new DateRangeInfo({selectedDate: date, range: "week"});
 console.log(myMonth.range);

@@ -47,12 +47,12 @@ let testEventArray = [{
 
 const Month = ({date}) => {
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
- date = '2024-02-01';
-
 let myMonth = new DateRangeInfo({selectedDate: date, range: "week"});
 console.log(myMonth.range);
 console.log(myMonth.selectedDate)
 myMonth.establishDateInfo()
+
+// i need to find  the currnt day and set it to be highlighted if it is represented in the calender period being shown
 
 //this part will set the layout of the calender
 console.log(myMonth.day);
