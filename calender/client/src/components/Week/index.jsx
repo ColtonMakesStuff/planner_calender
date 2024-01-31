@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
 import { Pencil } from '@phosphor-icons/react';
 import { Note } from '@phosphor-icons/react';
+import HandleIncrement from '../HandleIncrement';
 
 let testEventArray = [{
   title: "Haircut",
@@ -49,7 +50,7 @@ const Week = ({ date }) => {
  const selectedDate = date;
  let myWeek = new DateRangeInfo({ selectedDate, range: "week" });
 
-
+let range = myWeek.range;
  // Establish date info and get week info
  myWeek.establishDateInfo();
  let weekArray = myWeek.getWeekInfo();
@@ -60,7 +61,7 @@ const Week = ({ date }) => {
  ~~~~~~~~~~~~~~~~~`);
  // Define days of the week
  const days = [ 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat','Sun'];
- const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',]
+ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
  // Initialize datesArray
  let datesArray = [];
@@ -117,16 +118,20 @@ const Week = ({ date }) => {
       </div>
     );
  }
+console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
+ console.log(months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1])
 
  return (
     <div className="flex flex-col items-center text-content justify-center h-screen">
       <div className="flex flex-col w-4/5 md:w-2/5 h-18">
         <div className='flex mb-2 ml-7 mr-8 text-xl font-extralight justify-between'>
-          <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer'>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1]}</h2>
+          <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer' onClick={()=> console.log(`${myWeek.year}${myWeek.month}01`)}>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1]}</h2>
           <h2 className='text-sm mt-3'>week {weekNumber}</h2>
         </div>
         {daySections}
       </div>
+      <HandleIncrement date={date} range={range}/>
+
     </div>
  );
 };

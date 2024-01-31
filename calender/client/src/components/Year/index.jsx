@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
 import classes from './index.module.css';
 import { useParams } from "react-router-dom";
+import HandleIncrement from '../HandleIncrement';
+
 
 let testEventArray = [{
   title: "test event",
@@ -50,12 +52,10 @@ const Year = ({date}) => {
 
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
 
-let myMonth = new DateRangeInfo({selectedDate: date, range: "week"});
-console.log(myMonth.range);
-console.log(myMonth.selectedDate)
+let myMonth = new DateRangeInfo({selectedDate: date, range: "year"});
+let range= myMonth.range;
 myMonth.establishDateInfo()
 const myMonths = myMonth.getMonthsInYear();
-console.log(myMonths);
 let firstDay = myMonth.getNameOfDay();
 let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ];  
 let miniDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -75,7 +75,6 @@ for (let i = 0; i < myMonths.length; i++) {
     dateList = month.getDatesInMonth();
     let monthName = month.getNameOfMonth();
 
-    console.log(dateList);
     blanks = days.indexOf(firstDay);
     blanksArray = Array(blanks).fill({
       event: false,
@@ -130,7 +129,7 @@ for (let i = 0; i < myMonths.length; i++) {
 
 
       let monthSquare = (
-        <div className="flex flex-col text-content justify-center m-2 cursor-pointer hover:bg-accent-1 rounded-md border-2 border-transparent active:border-accent-2" onClick={() => console.log('lol')}>
+        <div className="flex flex-col text-content justify-center m-2 cursor-pointer hover:bg-accent-1 rounded-md border-2 border-transparent active:border-accent-2" onClick={() => console.log(monthName)}>
         <p className='flex justify-center text-xl font-thin mt-5'>{monthName}</p>
             <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
             {miniDaysDisplay}
@@ -143,7 +142,6 @@ for (let i = 0; i < myMonths.length; i++) {
     
         monthSquares.push(monthSquare);
 }
-console.log(monthSquares);
 
 
     return (
@@ -157,6 +155,7 @@ console.log(monthSquares);
         {monthSquares}
             
 
+        <HandleIncrement date={date} range={range}/>
 
          </div>
 

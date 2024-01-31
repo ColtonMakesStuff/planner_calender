@@ -54,33 +54,6 @@ let range = myMonth.range;
 console.log(myMonth.selectedDate)
 myMonth.establishDateInfo()
 
-const navigate = useNavigate();
-
-const [currentMonth, setCurrentMonth] = useState(myMonth.month);
-const [currentYear, setCurrentYear] = useState(myMonth.year);
-
-
-const handleClick = (increment) => {
-  let newMonth = +currentMonth + increment;
-  if (newMonth < 10) {
-     newMonth = `0${newMonth}`;
-  }
-  let newYear = currentYear;
- 
-  if (newMonth > '12') {
-     newMonth = '01';
-     newYear = +currentYear + 1;
-  }
-  if (newMonth < '01') {
-     newMonth = '12';
-     newYear = +currentYear - 1;
-  }
-  setCurrentMonth(newMonth);
-  setCurrentYear(newYear);
-  navigate(`/month/${newYear}${newMonth}01`);
- };
- 
-
 // i need to find  the currnt day and set it to be highlighted if it is represented in the calender period being shown
 
 //this part will set the layout of the calender

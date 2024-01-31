@@ -13,6 +13,7 @@ let month = match[2];
 let day = match[3];
 let daysInMonth = new Date(year, month, 0).getDate();
 let DaysInPrevMonth = new Date(year, month - 1, 0).getDate();
+
 console.log(daysInMonth);
 console.log(DaysInPrevMonth);
 
@@ -20,13 +21,15 @@ console.log(DaysInPrevMonth);
 const [currentMonth, setCurrentMonth] = useState(month);
 const [currentYear, setCurrentYear] = useState(year);
 const [currentDay, setCurrentDay] = useState(day);
+const [currentDaysInMonth, setCurrentDaysInMonth] = useState(daysInMonth);
+const [currentDaysInPrevMonth, setCurrentDaysInPrevMonth] = useState(DaysInPrevMonth);
 
 const handleClick = (direction) => {
     let newMonth = +currentMonth;
     let newDay = +currentDay;
     let newYear = +currentYear;
     if (range === 'week') {
-            direction === 'back' ? newDay = currentDay - 7 : newDay = currentDay + 7;
+            direction === 'back' ? newDay = newDay - 7 : newDay = newDay + 7;
             console.log("week");
     } else if (range=== 'month') {
             direction === 'back' ? newMonth = newMonth - 1 : newMonth = newMonth + 1;
@@ -40,6 +43,15 @@ const handleClick = (direction) => {
 
 
 // chcek if the date is out of bounds
+   
+    if (newDay > daysInMonth) {
+        newDay = newDay - daysInMonth;
+        newMonth = +newMonth + 1;
+    }
+    if (newDay < 1) {
+        newDay = DaysInPrevMonth + newDay;
+        newMonth = +newMonth - 1;
+    }
     if (newMonth > 12) {
         newMonth = 1;
         newYear = +newYear + 1;
@@ -55,10 +67,13 @@ if (newMonth < 10) {
 if (newDay < 10) {
        newDay = `0${newDay}`;
 } 
-console.log(`/month/${newYear}${newMonth}01`)
+console.log(`/month/${newYear}${newMonth}${newDay}`)
   setCurrentMonth(newMonth);
   setCurrentYear(newYear);
-  navigate(`/month/${newYear}${newMonth}01`);
+  setCurrentDay(newDay);
+  setCurrentDaysInMonth(new Date(newYear, newMonth, 0).getDate());
+  setCurrentDaysInPrevMonth(new Date(newYear, newMonth - 1, 0).getDate());
+  navigate(`/${range}/${newYear}${newMonth}${newDay}`);
 
 }
 
