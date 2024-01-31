@@ -25,14 +25,18 @@ const handleClick = (direction) => {
     let newMonth = +currentMonth;
     let newDay = +currentDay;
     let newYear = +currentYear;
-switch (range) {
-    case 'week':
-        direction === 'back' ? newDay = currentDay - 7 : newDay = currentDay + 7;
-    case 'month':
-        direction === 'back' ? newMonth = newMonth - 1 : newMonth = newMonth + 1;
-    case 'year':
-        direction === 'back' ? newYear = newYear - 1 : newYear = newYear + 1;
-    default:
+    if (range === 'week') {
+            direction === 'back' ? newDay = currentDay - 7 : newDay = currentDay + 7;
+            console.log("week");
+    } else if (range=== 'month') {
+            direction === 'back' ? newMonth = newMonth - 1 : newMonth = newMonth + 1;
+            console.log("month");
+    }else if (range === 'year'){
+            direction === 'back' ? newYear = newYear - 1 : newYear = newYear + 1;
+            console.log("year");
+    } else {
+            console.log("error");
+    }
 
 
 // chcek if the date is out of bounds
@@ -51,12 +55,14 @@ if (newMonth < 10) {
 if (newDay < 10) {
        newDay = `0${newDay}`;
 } 
-
+console.log(`/month/${newYear}${newMonth}01`)
   setCurrentMonth(newMonth);
   setCurrentYear(newYear);
   navigate(`/month/${newYear}${newMonth}01`);
+
 }
-};
+
+
 
 
     return (
