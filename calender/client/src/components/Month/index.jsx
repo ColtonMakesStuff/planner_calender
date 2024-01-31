@@ -144,7 +144,7 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
            {dateSquares}
          </div>
          <div className='flex justify-center'>
-         <h1 className='hover:bg-accent-1 border-2 border-transparent rounded-lg active:border-accent-2  cursor-pointer flex justify-center text-2xl font-thin mt-5 p-2 w-1/5'>{myMonth.year}</h1></div>
+         <h1 className='hover:bg-accent-1 border-2 border-transparent rounded-lg active:border-accent-2  cursor-pointer flex justify-center text-2xl font-thin mt-5 p-2 w-1/5' onClick={()=> navigate(`/year/${myMonth.year}0101`)} >{myMonth.year}</h1></div>
          <HandleIncrement date={date} range={range}/>
       </div>
      )

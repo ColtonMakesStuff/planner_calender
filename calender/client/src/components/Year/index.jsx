@@ -3,6 +3,7 @@ import DateRangeInfo from '../../utils/dateInfo';
 import classes from './index.module.css';
 import { useParams } from "react-router-dom";
 import HandleIncrement from '../HandleIncrement';
+import { useNavigate } from 'react-router-dom';
 
 
 let testEventArray = [{
@@ -50,6 +51,7 @@ let testEventArray = [{
 
 const Year = ({date}) => {
 
+const navigate = useNavigate();
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
 
 let myMonth = new DateRangeInfo({selectedDate: date, range: "year"});
@@ -125,11 +127,16 @@ for (let i = 0; i < myMonths.length; i++) {
           {day}
         </h3>
       ))
-
+let monthNumber;
+if (i < 9) {
+  monthNumber = `0${i+1}`
+} else {
+  monthNumber = i+1
+}
 
 
       let monthSquare = (
-        <div className="flex flex-col text-content justify-center m-2 cursor-pointer hover:bg-accent-1 rounded-md border-2 border-transparent active:border-accent-2" onClick={() => console.log(monthName)}>
+        <div className="flex flex-col text-content justify-center m-2 cursor-pointer hover:bg-accent-1 rounded-md border-2 border-transparent active:border-accent-2" onClick={()=> navigate(`/month/${myMonth.year}${monthNumber}01`)}>
         <p className='flex justify-center text-xl font-thin mt-5'>{monthName}</p>
             <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
             {miniDaysDisplay}

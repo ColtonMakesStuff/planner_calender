@@ -133,6 +133,8 @@ console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
         </div>
         {daySections}
       </div>
+      
+         <h1 className='hover:bg-accent-1 border-2 border-transparent rounded-lg active:border-accent-2  cursor-pointer flex justify-center text-2xl font-thin mt-5 p-2 w-1/5' onClick={()=> navigate(`/year/${myWeek.year}0101`)}>{myWeek.year}</h1>
       <HandleIncrement date={date} range={range}/>
 
     </div>
