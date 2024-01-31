@@ -4,6 +4,8 @@ import DateRangeInfo from '../../utils/dateInfo';
 import { Pencil } from '@phosphor-icons/react';
 import { Note } from '@phosphor-icons/react';
 import HandleIncrement from '../HandleIncrement';
+import { useNavigate } from 'react-router-dom';
+
 
 let testEventArray = [{
   title: "Haircut",
@@ -47,6 +49,7 @@ let testEventArray = [{
 ]
 
 const Week = ({ date }) => {
+const navigate = useNavigate();
  const selectedDate = date;
  let myWeek = new DateRangeInfo({ selectedDate, range: "week" });
 
@@ -125,7 +128,7 @@ console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
     <div className="flex flex-col items-center text-content justify-center h-screen">
       <div className="flex flex-col w-4/5 md:w-2/5 h-18">
         <div className='flex mb-2 ml-7 mr-8 text-xl font-extralight justify-between'>
-          <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer' onClick={()=> console.log(`${myWeek.year}${myWeek.month}01`)}>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1]}</h2>
+          <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer' onClick={()=> navigate(`/month/${myWeek.year}${myWeek.month}01`)}>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1]}</h2>
           <h2 className='text-sm mt-3'>week {weekNumber}</h2>
         </div>
         {daySections}

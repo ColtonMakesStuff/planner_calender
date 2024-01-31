@@ -48,6 +48,8 @@ let testEventArray = [{
 // 
 
 const Month = ({date}) => {
+const navigate = useNavigate();
+
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
 let myMonth = new DateRangeInfo({selectedDate: date, range: "month"});
 let range = myMonth.range;
@@ -105,6 +107,8 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
   onClick={() => {
      if (monthAtAGlance[i]?.day && monthAtAGlance[i].day >= 1) {
        console.log(monthAtAGlance[i].date);
+        navigate(`/week/${monthAtAGlance[i].date}`);
+
      }
   }}
 >
@@ -139,7 +143,8 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
          <div className="grid grid-cols-7 gap-0 w-5/6 md:w-3/4 mx-auto">
            {dateSquares}
          </div>
-         <h1 className='flex justify-center text-2xl font-thin mt-5'>{myMonth.year}</h1>
+         <div className='flex justify-center'>
+         <h1 className='hover:bg-accent-1 border-2 border-transparent rounded-lg active:border-accent-2  cursor-pointer flex justify-center text-2xl font-thin mt-5 p-2 w-1/5'>{myMonth.year}</h1></div>
          <HandleIncrement date={date} range={range}/>
       </div>
      )
