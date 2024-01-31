@@ -10,6 +10,7 @@ import ErrorPage from './pages/ErrorPage';
 import MonthPage from './pages/MonthPage.jsx';
 import WeekPage from './pages/WeekPage.jsx';
 import YearPage from './pages/YearPage.jsx';
+import DayPage from './pages/DayPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,9 @@ const router = createBrowserRouter([
       }, {
         path: '/week/:weekday',
         element: <WeekPage />
+      }, {
+        path: 'day/:day',
+        element: <DayPage />
       }
     ]
   },
