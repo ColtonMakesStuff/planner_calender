@@ -1,13 +1,17 @@
 // i need to make a card that is a component that i can use to wrap around everything, 
 import classes from './index.module.css';
+import HandleIncrement from '../HandleIncrement';
 
 const MainCard = ({children}) => {
   return (
-    <div className="flex items-center justify-center h-screen">
-    <div className={`bg-bkg-2  text-content p-4 rounded-xl aspect-[14/9]  w-4/5 md:w-4/5 ${classes.drop_Shadow}`}
-    >
-      {children}
-    </div>
+    <div className="flex flex-col items-center text-content h-screen ">
+            <div className="flex flex-col w-4/5 md:w-2/5 h-18 relative">
+        
+        <div className="overflow-auto p-4 border border-bkg-1 rounded-xl shadow-md" style={{aspectRatio: '3 / 5', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+  
+          {children}
+        </div>
+      </div>
     </div>
   )
 }

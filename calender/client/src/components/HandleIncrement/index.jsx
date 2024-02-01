@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 
-const HandleIncrement = ({date, range}) => {
+const HandleIncrement = ({date, range, children}) => {
 
 console.log(date);
 console.log(range);
@@ -37,7 +38,10 @@ const handleClick = (direction) => {
     }else if (range === 'year'){
             direction === 'back' ? newYear = newYear - 1 : newYear = newYear + 1;
             console.log("year");
-    } else {
+    } else if (range === 'day'){
+            direction === 'back' ? newDay = newDay - 1 : newDay = newDay + 1;
+            console.log("day");
+    }{
             console.log("error");
     }
 
@@ -81,10 +85,12 @@ console.log(`/month/${newYear}${newMonth}${newDay}`)
 
 
     return (
-      <div className="flex flex-col text-content justify-center mt-10">
-         <button onClick={() => handleClick("back")}>Go back</button>
-         <button onClick={() => handleClick()}>Go forward</button>
-      </div>
+        <div className="flex justify-between items-center ">
+            <button className='hover:bg-accent-1 rounded-md hover:cursor-pointer absolute bottom-5 p-2 active:p-1 left-5 active:mb-1 active:ml-1' onClick={() => handleClick("back")}><CaretLeft size={36} color="#563c1f" weight="duotone" /></button>
+            
+            <button className=' hover:bg-accent-1 rounded-md hover:cursor-pointer absolute bottom-5 p-2 active:mb-1 active:mr-1 active:p-1 right-5' onClick={() => handleClick()}><CaretRight size={36} color="#563c1f" weight="duotone" /></button>
+        </div>
+    
      )
      
 }

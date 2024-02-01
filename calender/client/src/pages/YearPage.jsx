@@ -7,6 +7,8 @@ export default function YearPage() {
  console.log(yearStr); // Outputs: 2024-01-01
 
  return (
+    <>
     <Year date={yearStr}/>
+    </>
  );
 }

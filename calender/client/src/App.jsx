@@ -39,9 +39,9 @@ function App() {
     <ApolloProvider client={client}>
       <main>
 
-        {/* <MainCard children={ <Outlet />} */}
-        {/* /> */}
-        <Outlet />
+        <MainCard children={ <Outlet />}
+        /> 
+        {/* <Outlet /> */}
       </main>
 
     </ApolloProvider>

@@ -136,7 +136,7 @@ if (i < 9) {
 
 
       let monthSquare = (
-        <div className="flex flex-col text-content justify-center m-2 cursor-pointer hover:bg-accent-1 rounded-md border-2 border-transparent active:border-accent-2" onClick={()=> navigate(`/month/${myMonth.year}${monthNumber}01`)}>
+        <div className="flex flex-col text-content justify-center m-2 p-1 cursor-pointer hover:bg-accent-1 rounded-md border-2 border-transparent active:border-accent-2" onClick={()=> navigate(`/month/${myMonth.year}${monthNumber}01`)}>
         <p className='flex justify-center text-xl font-thin mt-5'>{monthName}</p>
             <div className="flex flex-row justify-between items-center w-5/6 w-full mx-auto font-light">
             {miniDaysDisplay}
@@ -152,21 +152,20 @@ if (i < 9) {
 
 
     return (
-      <div className="mr-5 m1-5sm:mr-10 sm:ml-10 flex flex-col text-content justify-center m-2">
+     
+      <div className="mr-5 ml-5 sm:mr-10 sm:ml-10 flex flex-col text-content justify-center m-2">
          <h1 className='flex justify-center text-2xl font-thin mt-5'>{myMonth.year}
          </h1>
-         <div className=" text-xs sm:text-xs md:text-sm grid grid-cols-2 sm:grid-cols-3 gap-0 w-full  font-bold mx-auto">
+         <div className=" text-xs sm:text-xs md:text-sm grid grid-cols-2  gap-0 w-full  font-bold mx-auto">
 
             
 
         {monthSquares}
             
 
-        <HandleIncrement date={date} range={range}/>
-
-         </div>
-
-      </div>
+        </div>
+        
+        <HandleIncrement date={date} range={range}/></div>
      )
      
 }

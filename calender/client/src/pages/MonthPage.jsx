@@ -9,6 +9,9 @@ export default function MonthPage() {
   console.log(monthStr); // Outputs: 2024-01-01
 
   return (
+    <>
     <Month date={monthStr}/>
+    
+    </>
   );
 }

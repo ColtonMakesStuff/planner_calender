@@ -125,10 +125,9 @@ console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
  console.log(months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1])
 
  return (
-  <div className="flex flex-col items-center text-content h-screen ">
-  <div className="flex flex-col w-4/5 md:w-2/5 h-18">
 
-<div className="p-4 border border-bkg-1 rounded-xl shadow-md" style={{aspectRatio: '3 / 5', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+
+  <>
         <div className='flex pb-4 pl-7 pr-8 text-xl font-extralight justify-between border-b-2 border-accent-2 '>
           <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer' onClick={()=> navigate(`/month/${myWeek.year}${myWeek.month}01`)}>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1]}</h2>
           <h2 className='text-sm mt-3'>week {weekNumber}</h2>
@@ -137,13 +136,10 @@ console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
         <div className='flex justify-center border-t-2 border-accent-2 '>
         <h1 className='hover:bg-accent-1 border-2 border-transparent rounded-lg active:border-accent-2  cursor-pointer flex justify-center text-2xl font-thin mt-5 p-2 w-1/5' onClick={()=> navigate(`/year/${myWeek.year}0101`)}>{myWeek.year}</h1>
         </div>
-      <HandleIncrement date={date} range={range}/>
-      </div>
-      
-  
+        <HandleIncrement date={date} range={range}/>
 
-    </div>
-    </div>
+      </>
+    
  );
 };
 

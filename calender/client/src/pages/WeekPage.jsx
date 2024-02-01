@@ -1,7 +1,7 @@
 import { useRouteError } from "react-router-dom";
 import Week from "../components/Week";
 import { useParams } from "react-router-dom";
-
+import HandleIncrement from "../components/HandleIncrement";
 
 export default function WeekPage() {
   let { weekday } = useParams();
@@ -10,6 +10,8 @@ export default function WeekPage() {
   
 
   return (
+
     <Week date={weekdayStr} />
+
   );
 }

@@ -134,19 +134,24 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
 
 
     return (
-      <div className="flex flex-col text-content justify-center mt-10">
+      
+      <div className="flex flex-col text-content justify-center h-full mt-10 justify-between">
          <h1 className='flex justify-center text-2xl font-thin mb-5'>{myMonth.getNameOfMonth()}</h1>
-        
-         <div className="flex flex-row justify-between items-center w-5/6 md:w-3/4 mx-auto">
+        <div className='h-full'>
+         <div className="flex flex-row justify-between items-center w-full  mx-auto">
           {miniDaysDisplay}
          </div>
-         <div className="grid grid-cols-7 gap-0 w-5/6 md:w-3/4 mx-auto">
+         <div className="grid grid-cols-7 gap-0 w-full mx-auto ">
            {dateSquares}
          </div>
-         <div className='flex justify-center'>
+         </div>
+         <div>
+         <div className='flex flex-col items-center'>
          <h1 className='hover:bg-accent-1 border-2 border-transparent rounded-lg active:border-accent-2  cursor-pointer flex justify-center text-2xl font-thin mt-5 p-2 w-1/5' onClick={()=> navigate(`/year/${myMonth.year}0101`)} >{myMonth.year}</h1></div>
          <HandleIncrement date={date} range={range}/>
+         </div>
       </div>
+     
      )
      
 }
