@@ -6,8 +6,22 @@ import { ADD_USER } from '../utils/mutations';
 
 import Auth from '../utils/auth';
 import Signup from '../components/Signup';
+import { CalendarBlank } from '@phosphor-icons/react';
+import { useNavigate } from 'react-router-dom';
+
 
 const SignupPage = () => {
+
+  const navigate = useNavigate();
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+  var yyyy = today.getFullYear();
+  
+  today =  yyyy + mm + dd; 
+  console.log(today); // Outputs the current date in the format mm/dd/yyyy
+
+
   const [formState, setFormState] = useState({
     username: '',
     email: '',
@@ -34,18 +48,28 @@ const SignupPage = () => {
       });
 
       Auth.login(data.addUser.token);
+
+      navigate(`/year/${today}`)
+
     } catch (e) {
       console.error(e);
     }
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
-          <div className="card-body">
-          {data ? (
+    <main className="flex flex-col justify-center h-full">
+      <div className='flex justify-center mt-2 '>
+
+<CalendarBlank size={64} color="#46372b" weight="duotone" className='border-2 border-accent-2 bg-accent-1 rounded-xl'/>
+</div>
+    <div className="flex justify-center mt-2">
+       <h4 className="flex align-center" style={{ fontSize: '2rem' }}>Sign Up</h4>
+    </div>
+    <div className="h-full">
+       <div className="col-12 col-lg-10">
+         <div className="card">
+           <div className="card-body">
+             {data ? (
                <p>
                  Success! You may now head{' '}
                  <Link to="/">back to the homepage.</Link>
@@ -53,16 +77,18 @@ const SignupPage = () => {
              ) : (
                <Signup handleChange={handleChange} handleFormSubmit={handleFormSubmit} formState={formState} />
              )}
-
-            {error && (
-              <div className="my-3 p-3 bg-danger text-white">
-                {error.message}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </main>
+   
+             {error && (
+               <div className="text-white">
+                 {error.message}
+               </div>
+             )}
+           </div>
+         </div>
+       </div>
+    </div>
+   </main>
+   
   );
 };
 
