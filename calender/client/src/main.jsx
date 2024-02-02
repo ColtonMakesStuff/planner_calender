@@ -3,8 +3,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from './App.jsx'
 import Home from './pages/oldPages/Home';
-import Signup from './pages/oldPages/Signup';
-import LoginPage from './pages/oldPages/LoginPage';
+import Signup from './pages/SignupPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 import SingleThought from './pages/oldPages/SingleThought';
 import ErrorPage from './pages/ErrorPage';
 import MonthPage from './pages/MonthPage.jsx';
@@ -19,17 +19,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
-        element: <Home />
-      }, {
         path: '/login',
         element: <LoginPage />
       }, {
         path: '/signup',
         element: <Signup />
-      }, {
-        path: '/thoughts/:thoughtId',
-        element: <SingleThought />
       }, 
       {
         path: '/year/:year',

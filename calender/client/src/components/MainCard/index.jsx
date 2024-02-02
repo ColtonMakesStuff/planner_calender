@@ -5,7 +5,7 @@ import HandleIncrement from '../HandleIncrement';
 const MainCard = ({children}) => {
   return (
     <div className="flex flex-col items-center text-content h-screen ">
-            <div className="flex flex-col w-4/5 md:w-2/5 h-18 relative">
+            <div className="flex flex-col w-4/5 md:w-2/5 h-18 relative mt-10">
         
         <div className="overflow-auto p-4 border border-bkg-1 rounded-xl shadow-md" style={{aspectRatio: '3 / 5', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
   
