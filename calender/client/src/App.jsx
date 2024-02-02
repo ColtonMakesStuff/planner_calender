@@ -34,14 +34,35 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+function getDeviceType() {
+  const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+ 
+  if (width >= 1200) {
+     return 'desktop';}
+  else if (width <= 768) {
+     return 'mobile';
+  }
+ }
+ 
+
 function App() {
+  const deviceType = getDeviceType();
   return (
     <ApolloProvider client={client}>
       <main>
-
+      {deviceType === 'mobile' ? (
+          <div className='h-screen flex flex-col justify-between'>
+            <div className="flex flex-col h-full relative">
+              <div className="overflow-auto m-2 h-full " style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                <Outlet />
+              </div>
+            </div>
+          </div>
+        ) : (
         <MainCard children={ <Outlet />}
-        /> 
-        {/* <Outlet /> */}
+        />  
+
+        )}
       </main>
 
     </ApolloProvider>
