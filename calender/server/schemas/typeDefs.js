@@ -22,6 +22,17 @@ const typeDefs = `
     createdAt: String
   }
 
+  type Event {
+    _id: ID
+    eventTitle: String
+    eventDate: String
+    eventStartTime: String
+    eventEndTime: String
+    eventLocation: String
+    eventColor: String
+    eventDescription: String
+  }
+
   type Auth {
     token: ID!
     user: User
