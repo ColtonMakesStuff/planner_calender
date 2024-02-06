@@ -16,7 +16,7 @@ const typeDefs = `
     eventLocation: String
     eventColor: String
     eventDescription: String
-    userName: String
+    username: String
   }
 
   type Auth {
@@ -27,15 +27,16 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
-    events: [Event]
+    events(username: String!): [Event]
     event(eventId: ID!): Event
+    allEvents: [Event]
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    createEvent(eventTitle: String!, eventDate: String!, eventStartTime: String!, eventEndTime: String!, eventLocation: String!, eventColor: String, eventDescription: String, userName: String!): Event
-    updateEvent(eventId: ID!, eventTitle: String, eventDate: String, eventStartTime: String, eventEndTime: String, eventLocation: String, eventColor: String, eventDescription: String, userName: String!): Event
+    createEvent(eventTitle: String!, eventDate: String!, eventStartTime: String!, eventEndTime: String!, eventLocation: String!, eventColor: String, eventDescription: String, username: String!): Event
+    updateEvent(eventId: ID!, eventTitle: String, eventDate: String, eventStartTime: String, eventEndTime: String, eventLocation: String, eventColor: String, eventDescription: String, username: String!): Event
     removeEvent(eventId: ID!): Event
   }
 `;
@@ -51,7 +52,7 @@ module.exports = typeDefs;
     // removeThought(thoughtId: ID!): Thought
     // removeComment(thoughtId: ID!, commentId: ID!): Thought
 
-    // thoughts(username: String): [Thought]
+    // events(username: String): [Thought]
     // thought(thoughtId: ID!): Thought
 
     // type Thought {

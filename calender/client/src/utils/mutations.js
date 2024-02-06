@@ -62,3 +62,37 @@ export const ADD_COMMENT = gql`
     }
   }
 `;
+
+
+export const ADD_EVENT = gql`
+mutation Mutation(
+  $eventTitle: String!, 
+  $eventDate: String!, 
+  $eventStartTime: String!, 
+  $eventEndTime: String!, 
+  $eventLocation: String!, 
+  $userName: String!, 
+  $eventColor: String, 
+  $eventDescription: String
+  ) {
+  createEvent(
+    eventTitle: $eventTitle, 
+    eventDate: $eventDate, 
+    eventStartTime: $eventStartTime, 
+    eventEndTime: $eventEndTime, 
+    eventLocation: $eventLocation, 
+    userName: $userName, 
+    eventColor: $eventColor, 
+    eventDescription: $eventDescription
+    ) {
+    _id
+    eventColor
+    eventDate
+    eventDescription
+    eventEndTime
+    eventLocation
+    eventStartTime
+    eventTitle
+    userName
+  }
+}`

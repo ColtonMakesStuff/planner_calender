@@ -1,9 +1,26 @@
 import { useNavigate } from 'react-router-dom';
 import DateRangeInfo from '../../utils/dateInfo';
 import HandleIncrement from '../HandleIncrement';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+
+// import { GET_EVENTS } from '../../utils/queries';
+
 
 const Day = ({ date }) => {
     console.log(date); 
+
+    // const { loading, data } = useQuery(GET_EVENTS, {
+    //     variables: { userName: "test"}
+    // });
+    // console.log(data);
+
+
+
+
+
+
+
     const navigate = useNavigate();
     const selectedDate = date;
     let myDay = new DateRangeInfo({selectedDate: selectedDate,  range: "day" });

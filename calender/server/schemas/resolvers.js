@@ -4,31 +4,34 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('username');
+      return User.find();
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate('username');
+      return User.findOne({ username }).populate('events');
     },
-    // thoughts: async (parent, { username }) => {
-    //   const params = username ? { username } : {};
-    //   return Thought.find(params).sort({ createdAt: -1 });
-    // },
-    // thought: async (parent, { thoughtId }) => {
-    //   return Thought.findOne({ _id: thoughtId });
-    // },
-     events: async (parent, { username }) => {
-       const params = username ? { username } : {};
-       return Event.find(params).sort({ createdAt: -1 });
+  
+    events: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Event.find(params).sort({ createdAt: -1 });
+    },
+    allEvents: async () => {
+      return Event.find().populate('userId').sort({ createdAt: -1 });
     },
   },
-
+  
   Mutation: {
 
 
     createEvent: async (parent, args) => {
       // Destructure the arguments for easier access
-      const { eventTitle, eventDate, eventStartTime, eventEndTime, eventLocation, eventDescription, eventColor, userName } = args;
-
+      const { eventTitle, eventDate, eventStartTime, eventEndTime, eventLocation, eventDescription, eventColor, username } = args;
+  
+      // Find the user by their username
+      const user = await User.findOne({ username });
+      if (!user) {
+        throw new Error('User not found');
+      }
+  
       // Create a new event instance
       const newEvent = await Event.create({
         eventTitle,
@@ -37,49 +40,21 @@ const resolvers = {
         eventEndTime,
         eventLocation,
         eventDescription,
-        eventColor, 
-        userName
+        eventColor,
+        username: user.username, // Use the actual username string from the User document
+        userId: user._id // Use the _id from the User document
       });
-
-      // Find the user by their username
-      const user = await User.findOneAndUpdate({ userName });
-
-      if (!user) {
-        throw new Error('User not found');
-      }
-
+  
       // Add the new event to the user's events array
       user.events.push(newEvent._id);
-
+  
       // Save the updated user
       await user.save();
-
+  
       // Return the newly created event
       return newEvent;
     },
-    updateEvent: async (parent, args) => {
-      // Destructure the arguments for easier access
-      const { eventId, eventTitle, eventDate, eventStartTime, eventEndTime, eventLocation, eventDescription, eventColor, userName } = args;
-
-      // Create a new event instance
-      const updatedEvent = await Event.findOneAndUpdate(
-        { _id: eventId },
-        {
-          eventTitle,
-          eventDate,
-          eventStartTime,
-          eventEndTime,
-          eventLocation,
-          eventDescription,
-          eventColor, 
-          userName
-        },
-        { new: true }
-      );
-
-      // Return the newly created event
-      return updatedEvent;
-    },
+   
     removeEvent: async (parent, args, context, info) => {
       const { eventId } = args;
       try {
@@ -95,9 +70,6 @@ const resolvers = {
       }
     },
     
-
-
-
 
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
@@ -159,3 +131,13 @@ module.exports = resolvers;
     //   );
     // },
     
+    // {
+    //   "eventTitle": "Title",
+    //   "eventDate": "2024-02-06T14:30:00.0000000+01:00",
+    //   "eventStartTime": "start",
+    //   "eventEndTime": "end",
+    //   "eventLocation": "place",
+    //   "username": "Lernantino",
+    //   "eventDescription": "null",
+    //   "eventColor": "null"
+    // }

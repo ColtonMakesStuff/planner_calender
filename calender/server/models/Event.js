@@ -34,10 +34,16 @@ const EventSchema = new Schema({
         required: false,
         maxlength: 280
     },
-    userName: {
+    username: {
         type: String,
         required: true
-    }
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+      },
+    
 });
 
 const Event = model('Event', EventSchema);
