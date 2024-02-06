@@ -1,4 +1,4 @@
-const { User, Thought } = require('../models');
+const { User, Thought, Event } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -19,6 +19,40 @@ const resolvers = {
   },
 
   Mutation: {
+
+
+    createEvent: async (parent, args) => {
+      // Destructure the arguments for easier access
+      const { eventTitle, eventDate, eventStartTime, eventEndTime, eventLocation, eventDescription, eventColor, userName } = args;
+
+      // Create a new event instance
+      const newEvent = await Event.create({
+        eventTitle,
+        eventDate,
+        eventStartTime,
+        eventEndTime,
+        eventLocation,
+        eventDescription,
+        eventColor, 
+        userName
+      });
+
+      // Find the user by their username
+      const user = await User.findOne({ username });
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      // Add the new event to the user's events array
+      user.events.push(newEvent._id);
+
+      // Save the updated user
+      await user.save();
+
+      // Return the newly created event
+      return newEvent;
+    },
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
@@ -73,6 +107,7 @@ const resolvers = {
         { new: true }
       );
     },
+    
   },
 };
 

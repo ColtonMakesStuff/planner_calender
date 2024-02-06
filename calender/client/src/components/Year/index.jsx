@@ -153,7 +153,7 @@ if (i < 9) {
 
     return (
      
-      <div className="mr-5 ml-5 sm:mr-10 sm:ml-10 flex flex-col text-content justify-center m-2">
+      <div className="mr-2 ml-2 sm:mr-2 sm:ml-2 flex flex-col text-content justify-center m-2">
          <h1 className='flex justify-center text-2xl font-thin mt-5'>{myMonth.year}
          </h1>
          <div className=" text-xs sm:text-xs md:text-sm grid grid-cols-2  gap-0 w-full  font-bold mx-auto">

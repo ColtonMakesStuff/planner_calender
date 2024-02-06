@@ -33,6 +33,10 @@ const EventSchema = new Schema({
         type: String,
         required: false,
         maxlength: 280
+    },
+    userName: {
+        type: String,
+        required: true
     }
 });
 

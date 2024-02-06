@@ -5,6 +5,7 @@ const typeDefs = `
     email: String
     password: String
     thoughts: [Thought]!
+    events: [Event]!
   }
 
   type Thought {
@@ -31,6 +32,7 @@ const typeDefs = `
     eventLocation: String
     eventColor: String
     eventDescription: String
+    userName: String
   }
 
   type Auth {
@@ -43,6 +45,8 @@ const typeDefs = `
     user(username: String!): User
     thoughts(username: String): [Thought]
     thought(thoughtId: ID!): Thought
+    events: [Event]
+    event(eventId: ID!): Event
   }
 
   type Mutation {
@@ -56,6 +60,9 @@ const typeDefs = `
     ): Thought
     removeThought(thoughtId: ID!): Thought
     removeComment(thoughtId: ID!, commentId: ID!): Thought
+    createEvent(eventTitle: String!, eventDate: String!, eventStartTime: String!, eventEndTime: String!, eventLocation: String!, eventColor: String, eventDescription: String, userName: String!): Event
+    updateEvent(eventId: ID!, eventTitle: String, eventDate: String, eventStartTime: String, eventEndTime: String, eventLocation: String, eventColor: String, eventDescription: String, userName: String!): Event
+    removeEvent(eventId: ID!): Event
   }
 `;
 
