@@ -16,6 +16,10 @@ const resolvers = {
     // thought: async (parent, { thoughtId }) => {
     //   return Thought.findOne({ _id: thoughtId });
     // },
+     events: async (parent, { username }) => {
+       const params = username ? { username } : {};
+       return Event.find(params).sort({ createdAt: -1 });
+    },
   },
 
   Mutation: {
@@ -53,6 +57,48 @@ const resolvers = {
       // Return the newly created event
       return newEvent;
     },
+    updateEvent: async (parent, args) => {
+      // Destructure the arguments for easier access
+      const { eventId, eventTitle, eventDate, eventStartTime, eventEndTime, eventLocation, eventDescription, eventColor, userName } = args;
+
+      // Create a new event instance
+      const updatedEvent = await Event.findOneAndUpdate(
+        { _id: eventId },
+        {
+          eventTitle,
+          eventDate,
+          eventStartTime,
+          eventEndTime,
+          eventLocation,
+          eventDescription,
+          eventColor, 
+          userName
+        },
+        { new: true }
+      );
+
+      // Return the newly created event
+      return updatedEvent;
+    },
+    removeEvent: async (parent, args, context, info) => {
+      const { eventId } = args;
+      try {
+        const result = await Event.findOneAndDelete({ _id: eventId });
+        if (result) {
+          return { _id: result._id };
+        } else {
+          throw new Error("Event not found");
+        }
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    
+
+
+
+
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
