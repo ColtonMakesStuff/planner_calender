@@ -30,7 +30,7 @@ let testEventArray = [{
   endTime: "13:00",
   description: "this is a test event",
   location: "test location",
-  color: "red",
+  color: "blue",
   allDay: false,
   recurring: false,
   recurringDays: [],
@@ -115,7 +115,7 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
      <div className="flex flex-col justify-center h-full">
          <div className="flex justify-center" >
            {/* THIS NEEDS TO BE REFACTORED WHEN ACTUAL DATA IS BEING BROUGHT IN!!!! */}
-           {monthAtAGlance[i]?.event ? <div className='w-[calc(3vw)] h-[calc(3vw)] rounded-full mt-1' style={{backgroundColor: 'black'}}></div> : <h3></h3>}
+           {monthAtAGlance[i]?.event ? <div className='w-[calc(3vw)] h-[calc(3vw)] rounded-full mt-1' style={{backgroundColor: `${monthAtAGlance[i].events.color}`}}></div> : <h3></h3>}
            {/* */}
          </div>
          <div className="mt-auto flex justify-center">

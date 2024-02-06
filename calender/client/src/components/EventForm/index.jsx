@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Circle } from '@phosphor-icons/react';
 
 const EventForm = ({ date }) => {
   // State for form inputs
@@ -6,10 +7,14 @@ const EventForm = ({ date }) => {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');  
+  const [description, setDescription] = useState(''); 
+  const [color, setColor] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
-
+  const handleColorChange = (color) => {
+    setColor(color);
+    console.log(color);
+  };
 
   // Rest of your component logic...
 
@@ -69,6 +74,24 @@ const EventForm = ({ date }) => {
                 onChange={(e) => setLocation(e.target.value)}
                 />
             </div>
+            {/* add it here */}
+
+
+    <div className='flex'>
+      <Circle size={60} color="#e32400" weight="fill" onClick={() => handleColorChange("#e32400")} 
+      className={color === '#e32400' ? 'border-4 rounded-full border-black' : ''}/>
+      <Circle size={60} color="#ff7e00" weight="fill" onClick={() => handleColorChange("#ff7e00")} 
+      className={color === '#ff7e00' ? 'border-4 rounded-full border-black' : ''}/>
+      <Circle size={60} color="#ffcc00" weight="fill" onClick={() => handleColorChange("#ffcc00")} 
+      className={color === '#ffcc00' ? 'border-4 rounded-full border-black' : ''}/>
+      <Circle size={60} color="#a3e048" weight="fill" onClick={() => handleColorChange("#a3e048")} 
+      className={color === '#a3e048' ? 'border-4 rounded-full border-black' : ''}/>
+      <Circle size={60} color="#53d5fd" weight="fill" onClick={() => handleColorChange("#53d5fd")} 
+      className={color === '#53d5fd' ? 'border-4 rounded-full border-black' : ''}/>
+      <Circle size={60} color="#7a4fff" weight="fill" onClick={() => handleColorChange("#7a4fff")} 
+      className={color === '#7a4fff' ? 'border-4 rounded-full border-black' : ''}/>
+    </div>
+
             <div className='flex flex-col h-full'>
                 <label className="text-sm mb-1 bg-transparent">
                 Notes:
@@ -90,11 +113,17 @@ const EventForm = ({ date }) => {
 return (
     <div className='flex flex-col justify-between h-full'>
         <div className='h-full'>
+            <div className='flex justify-between'>
             {eventTitle ? <h2 className="text-xl font-semibold mb-2">{eventTitle}</h2> : null}
+            {color ? <p className="text-lg mb-2"> <Circle size={30} color={color} weight="fill"/></p> : null}
+            </div>
             {startTime ? <p className="text-lg mb-2">Start Time: {startTime}</p> : null}
             {endTime ? <p className="text-lg mb-2">End Time: {endTime}</p> : null}
             {location ? <p className="text-lg mb-2">Location: {location}</p> : null}
-            {description ? <p className="text-md mb-2">Notes: {description}</p> : null}
+
+
+            {description ? <> <p className="text-md mb-2">Notes:</p> <p className="text-md mb-2">{description}</p>  </>: null}
+
         </div>
 
       <button onClick={() => setIsEditing(true)}>Edit</button>
