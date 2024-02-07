@@ -28,6 +28,7 @@ const typeDefs = `
     users: [User]
     user(username: String!): User
     events(username: String!): [Event]
+    eventByDate(username: String!, eventDate: String!): Event
     event(eventId: ID!): Event
     allEvents: [Event]
   }

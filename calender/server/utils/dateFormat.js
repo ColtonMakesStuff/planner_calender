@@ -2,19 +2,11 @@ const addDateSuffix = (date) => {
   let dateStr = date.toString();
 
   // get last char of date string
-  const lastChar = dateStr.charAt(dateStr.length - 1);
-
-  if (lastChar === '1' && dateStr !== '11') {
-    dateStr = `${dateStr}st`;
-  } else if (lastChar === '2' && dateStr !== '12') {
-    dateStr = `${dateStr}nd`;
-  } else if (lastChar === '3' && dateStr !== '13') {
-    dateStr = `${dateStr}rd`;
-  } else {
-    dateStr = `${dateStr}th`;
-  }
-
-  return dateStr;
+  let lastChar = dateStr.charAt(dateStr.length - 1);
+if (lastChar < 10) {
+lastChar = `${lastChar}`
+}
+  return lastChar;
 };
 
 // function to format a timestamp, accepts the timestamp and an `options` object as parameters
@@ -39,29 +31,21 @@ module.exports = (
   };
 
   const dateObj = new Date(timestamp);
-  const formattedMonth = months[dateObj.getMonth()];
-
-  const dayOfMonth = dateSuffix
-    ? addDateSuffix(dateObj.getDate())
-    : dateObj.getDate();
-
-  const year = dateObj.getFullYear();
-  let hour =
-    dateObj.getHours() > 12
-      ? Math.floor(dateObj.getHours() - 12)
-      : dateObj.getHours();
-
-  // if hour is 0 (12:00am), change it to 12
-  if (hour === 0) {
-    hour = 12;
+  let formattedMonth = 1 + dateObj.getUTCMonth();
+  if (formattedMonth < 10) {
+    formattedMonth = `0${formattedMonth}`;
   }
 
-  const minutes = (dateObj.getMinutes() < 10 ? '0' : '') + dateObj.getMinutes();
+  let dayOfMonth = dateObj.getUTCDate()
+  if (dayOfMonth < 10) {
+    dayOfMonth = `0${dayOfMonth}`;
+  }
 
-  // set `am` or `pm`
-  const periodOfDay = dateObj.getHours() >= 12 ? 'pm' : 'am';
+  const year = dateObj.getUTCFullYear();
 
-  const formattedTimeStamp = `${formattedMonth} ${dayOfMonth}, ${year} at ${hour}:${minutes} ${periodOfDay}`;
+
+  const formattedTimeStamp = `${year}-${formattedMonth}-${dayOfMonth}   `;
 
   return formattedTimeStamp;
+  
 };

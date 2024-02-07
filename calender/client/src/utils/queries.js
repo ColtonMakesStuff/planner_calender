@@ -15,6 +15,22 @@ export const QUERY_USER = gql`
   }
 `;
 
+export const QUERY_EVENT_BY_DATE = gql`
+query EventByDate($username: String!, $eventDate: String!) {
+  eventByDate(username: $username, eventDate: $eventDate) {
+    _id
+    eventTitle
+    eventDate
+    eventStartTime
+    eventEndTime
+    eventLocation
+    eventColor
+    eventDescription
+    username
+  }
+}
+`
+
 export const QUERY_THOUGHTS = gql`
   query getThoughts {
     thoughts {

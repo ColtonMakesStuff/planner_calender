@@ -14,9 +14,14 @@ const resolvers = {
       const params = username ? { username } : {};
       return Event.find(params).sort({ createdAt: -1 });
     },
+    
     allEvents: async () => {
       return Event.find().populate('userId').sort({ createdAt: -1 });
     },
+
+    eventByDate: async (parent, { username, eventDate }) => {
+      return Event.findOne({ username, eventDate }).populate('userId');
+    }
   },
   
   Mutation: {
@@ -31,7 +36,7 @@ const resolvers = {
       if (!user) {
         throw new Error('User not found');
       }
-  
+  console.log(args);
       // Create a new event instance
       const newEvent = await Event.create({
         eventTitle,
@@ -47,7 +52,7 @@ const resolvers = {
   
       // Add the new event to the user's events array
       user.events.push(newEvent._id);
-  
+      console.log(newEvent.eventDate);
       // Save the updated user
       await user.save();
   

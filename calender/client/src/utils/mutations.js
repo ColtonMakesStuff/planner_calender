@@ -65,34 +65,16 @@ export const ADD_COMMENT = gql`
 
 
 export const ADD_EVENT = gql`
-mutation Mutation(
-  $eventTitle: String!, 
-  $eventDate: String!, 
-  $eventStartTime: String!, 
-  $eventEndTime: String!, 
-  $eventLocation: String!, 
-  $userName: String!, 
-  $eventColor: String, 
-  $eventDescription: String
-  ) {
-  createEvent(
-    eventTitle: $eventTitle, 
-    eventDate: $eventDate, 
-    eventStartTime: $eventStartTime, 
-    eventEndTime: $eventEndTime, 
-    eventLocation: $eventLocation, 
-    userName: $userName, 
-    eventColor: $eventColor, 
-    eventDescription: $eventDescription
-    ) {
+mutation CreateEvent($eventTitle: String!, $eventDate: String!, $eventStartTime: String!, $eventEndTime: String!, $eventLocation: String!, $username: String!, $eventDescription: String, $eventColor: String) {
+  createEvent(eventTitle: $eventTitle, eventDate: $eventDate, eventStartTime: $eventStartTime, eventEndTime: $eventEndTime, eventLocation: $eventLocation, username: $username, eventDescription: $eventDescription, eventColor: $eventColor) {
     _id
-    eventColor
+    eventTitle
     eventDate
-    eventDescription
+    eventStartTime
     eventEndTime
     eventLocation
-    eventStartTime
-    eventTitle
-    userName
+    eventColor
+    eventDescription
+    username
   }
 }`
