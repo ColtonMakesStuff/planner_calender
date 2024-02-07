@@ -10,10 +10,10 @@ const resolvers = {
       return User.findOne({ username }).populate('events');
     },
   
-    events: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Event.find(params).sort({ createdAt: -1 });
+    eventsByUsername: async (parent, { username }) => {
+      return Event.find({ username: username }).sort({ createdAt: -1 });
     },
+    
     
     allEvents: async () => {
       return Event.find().populate('userId').sort({ createdAt: -1 });
@@ -36,7 +36,6 @@ const resolvers = {
       if (!user) {
         throw new Error('User not found');
       }
-  console.log(args);
       // Create a new event instance
       const newEvent = await Event.create({
         eventTitle,
@@ -59,21 +58,21 @@ const resolvers = {
       // Return the newly created event
       return newEvent;
     },
-   
-    removeEvent: async (parent, args, context, info) => {
-      const { eventId } = args;
-      try {
-        const result = await Event.findOneAndDelete({ _id: eventId });
-        if (result) {
-          return { _id: result._id };
-        } else {
-          throw new Error("Event not found");
-        }
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
+
+    updateEvent: async (parent, args) => {
+      // Destructure the arguments for easier access
+      const { eventId, eventTitle, eventDate, eventStartTime, eventEndTime, eventLocation, eventColor, eventDescription, username } = args;
+
+      // find the event by its id and update it
+      const updatedEvent = await Event.findOneAndUpdate(
+        { _id: eventId },
+        { eventTitle, eventDate, eventStartTime, eventEndTime, eventLocation, eventColor, eventDescription, username },
+        { new: true }
+      );
+      //return the updated event
+      return updatedEvent;
     },
+
     
 
     addUser: async (parent, { username, email, password }) => {
@@ -146,3 +145,19 @@ module.exports = resolvers;
     //   "eventDescription": "null",
     //   "eventColor": "null"
     // }
+
+
+    // removeEvent: async (parent, args, context, info) => {
+    //   const { eventId } = args;
+    //   try {
+    //     const result = await Event.findOneAndDelete({ _id: eventId });
+    //     if (result) {
+    //       return { _id: result._id };
+    //     } else {
+    //       throw new Error("Event not found");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     throw error;
+    //   }
+    // },

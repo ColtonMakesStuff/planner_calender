@@ -78,3 +78,19 @@ mutation CreateEvent($eventTitle: String!, $eventDate: String!, $eventStartTime:
     username
   }
 }`
+
+export const UPDATE_EVENT = gql`
+mutation Mutation($eventId: ID!, $username: String!, $eventTitle: String, $updateEventEventDate2: String, $eventStartTime: String, $eventEndTime: String, $eventLocation: String, $eventColor: String, $eventDescription: String) {
+  updateEvent(eventId: $eventId, username: $username, eventTitle: $eventTitle, eventDate: $updateEventEventDate2, eventStartTime: $eventStartTime, eventEndTime: $eventEndTime, eventLocation: $eventLocation, eventColor: $eventColor, eventDescription: $eventDescription) {
+    _id
+    eventTitle
+    eventDate
+    eventStartTime
+    eventEndTime
+    eventLocation
+    eventColor
+    eventDescription
+    username
+  }
+}
+`

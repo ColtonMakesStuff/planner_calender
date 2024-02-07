@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Circle } from '@phosphor-icons/react';
 import { useMutation, useQuery } from '@apollo/client';
-import { ADD_EVENT } from '../../utils/mutations'
+import { ADD_EVENT, UPDATE_EVENT } from '../../utils/mutations'
 import { QUERY_EVENT_BY_DATE } from '../../utils/queries';
 import Auth from '../../utils/auth';
 import { useEffect } from 'react';
+
 
 
 const EventForm = ({ date }) => {
@@ -17,6 +18,7 @@ const EventForm = ({ date }) => {
 
 
   // State for form inputs
+  const [eventDate, setEventDate ] = useState(date)
   const [eventTitle, setEventTitle] = useState('');
   const [eventStartTime, setStartTime] = useState('');
   const [eventEndTime, setEndTime] = useState('');
@@ -24,16 +26,27 @@ const EventForm = ({ date }) => {
   const [eventDescription, setDescription] = useState(''); 
   const [eventColor, setColor] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [eventId, setEventId] = useState('');
+  const [alreadyExists, setAlreadyExists] = useState(false);
 
 // on query need to set to states if available
 const username = Auth.getProfile().data.username
-const eventDate =  date
     
 
   const [addEvent, {error} ] = useMutation(ADD_EVENT, { 
      refetchQueries: [{ query: QUERY_EVENT_BY_DATE, 
      variables: { username, eventDate }   }]
   });
+  const [updateEvent, {error: updateError} ] = useMutation(UPDATE_EVENT, {
+    refetchQueries: [{ query: QUERY_EVENT_BY_DATE,
+    variables: { username, eventDate }   }]
+    });
+
+  useEffect(() => {
+ console.log(`date: ${date}`);
+}, [eventDate]);
+
+
 
 
  const { loading, data } = useQuery(QUERY_EVENT_BY_DATE, {
@@ -42,23 +55,32 @@ const eventDate =  date
 useEffect(() => {
     if (data) {
     if (data.eventByDate) {
+        setAlreadyExists(true);
         console.log(data);
-        if (data.eventByDate.eventTitle){
+        if (data.eventByDate._id){
             setEventTitle(data.eventByDate.eventTitle)
             setStartTime(data.eventByDate.eventStartTime)
             setEndTime(data.eventByDate.eventEndTime)
             setLocation(data.eventByDate.eventLocation)
             setDescription(data.eventByDate.eventDescription)
             setColor(data.eventByDate.eventColor)
+            setEventId(data.eventByDate._id)
+            console.log(eventId);
         }
-    }
+    } else {
+        console.log('no event for this date');    
+        setEventTitle('')
+        setStartTime('')
+        setEndTime('')
+        setLocation('')
+        setDescription('')
+        setColor('') 
+        setEventId('')
+}
 }
 
 }, [data]);
 
-//  useEffect(() => {
-//  console.log(data);
-//  }, [data]);
 
   const handleColorChange = (color) => {
     setColor(color);
@@ -69,6 +91,29 @@ useEffect(() => {
 
   const handleSave = async (event) => {
     event.preventDefault();
+    if (alreadyExists) {
+        console.log('already exists');
+        try {
+            const { data } = await updateEvent({
+              variables: {
+                  eventId,
+                  eventTitle,
+                  eventDate,
+                  eventStartTime,
+                  eventEndTime,
+                  eventLocation,
+                  eventDescription,
+                  eventColor,
+                  username,
+              },
+            });
+              console.log({data});
+          }
+            catch (err) {
+                console.error(err);
+                }
+                
+    } else {
     try {
       const { data } = await addEvent({
         variables: {
@@ -85,6 +130,7 @@ useEffect(() => {
         console.log({data});
     } catch (err) {
       console.error(err);
+    }
     }
   
     setIsEditing(false);

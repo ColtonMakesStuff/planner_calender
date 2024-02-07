@@ -27,7 +27,7 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
-    events(username: String!): [Event]
+    eventsByUsername(username: String!): [Event]
     eventByDate(username: String!, eventDate: String!): Event
     event(eventId: ID!): Event
     allEvents: [Event]
@@ -36,8 +36,8 @@ const typeDefs = `
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    createEvent(eventTitle: String!, eventDate: String!, eventStartTime: String!, eventEndTime: String!, eventLocation: String!, eventColor: String, eventDescription: String, username: String!): Event
-    updateEvent(eventId: ID!, eventTitle: String, eventDate: String, eventStartTime: String, eventEndTime: String, eventLocation: String, eventColor: String, eventDescription: String, username: String!): Event
+    createEvent(eventTitle: String, eventDate: String, eventStartTime: String, eventEndTime: String, eventLocation: String, eventColor: String, eventDescription: String, username: String!): Event
+    updateEvent(eventId: ID!, eventTitle: String, eventDate: String, eventStartTime: String, eventEndTime: String, eventLocation: String, eventColor: String, eventDescription: String, username: String): Event
     removeEvent(eventId: ID!): Event
   }
 `;

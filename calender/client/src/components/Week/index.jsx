@@ -6,6 +6,9 @@ import { Note } from '@phosphor-icons/react';
 import HandleIncrement from '../HandleIncrement';
 import { useNavigate } from 'react-router-dom';
 import Day from '../Day';
+import { useQuery } from '@apollo/client';
+import { QUERY_EVENT_BY_USERNAME } from '../../utils/queries';
+import Auth from '../../utils/auth';
 
 let testEventArray = [{
   title: "Haircut",
@@ -52,6 +55,27 @@ const Week = ({ date }) => {
 const navigate = useNavigate();
  const selectedDate = date;
  let myWeek = new DateRangeInfo({ selectedDate, range: "week" });
+ const username = Auth.getProfile().data.username
+
+const [events, setEvents] = useState([]);
+const [dataFromQuery, setDataFromQuery] = useState([]);
+
+
+const { loading, data } = useQuery(QUERY_EVENT_BY_USERNAME, {
+  variables: { username }
+});
+
+
+useEffect(() => {
+  if (loading === false && data) {
+    setDataFromQuery(data);
+  }
+}, [loading, data]); // Add loading to the dependency array to respond to loading state changes
+
+ useEffect(() => {
+   console.log(dataFromQuery.eventsByUsername);
+ }, [dataFromQuery]);
+
 
 let range = myWeek.range;
  // Establish date info and get week info

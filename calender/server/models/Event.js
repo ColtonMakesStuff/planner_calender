@@ -5,7 +5,7 @@ const EventSchema = new Schema({
     
     eventTitle: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     eventDate: {
@@ -15,19 +15,19 @@ const EventSchema = new Schema({
     }, 
     eventStartTime: {
         type: String,
-        required: true
+        required: false
     },
     eventEndTime: {
         type: String,
-        required: true
+        required: false
     },
     eventLocation: {
         type: String,
-        required: true
+        required: false
     },
     eventColor: {
         type: String,
-        required: true
+        required: false
     },
     eventDescription: {
         type: String,

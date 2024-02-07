@@ -57,3 +57,11 @@ export const QUERY_SINGLE_THOUGHT = gql`
     }
   }
 `;
+
+export const QUERY_EVENT_BY_USERNAME = gql`
+query Query($username: String!) {
+  eventsByUsername(username: $username) {
+    eventDate
+    eventColor
+  }
+}`
