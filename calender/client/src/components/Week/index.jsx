@@ -38,13 +38,19 @@ const [eventDate, setEventDate ] = useState(date)
 const [waitForContent, setWaitForContent] = useState(true);
 const [daySections, setDaySections] = useState([]);
 
-const { loading, data } = useQuery(QUERY_EVENT_BY_USERNAME, {
-  variables: { username }
+const { loading, data, refetch } = useQuery(QUERY_EVENT_BY_USERNAME, {
+  variables: { username },
+  enabled: true, // This will prevent the query from running on mount
 });
+const handleRefetch = () => {
+//this is wher i will need to refetch the data}
+
+refetch();
+}
 
 useEffect(() => {
 //I NEED TO RERENDER THE PAGE WHEN THE PARAMS CHANGE
-
+handleRefetch();
 }, [paramValue]); // Add loading to the dependency array to respond to loading state changes
 
 
