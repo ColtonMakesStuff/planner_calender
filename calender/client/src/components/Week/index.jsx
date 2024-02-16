@@ -9,47 +9,9 @@ import Day from '../Day';
 import { useQuery } from '@apollo/client';
 import { QUERY_EVENT_BY_USERNAME } from '../../utils/queries';
 import Auth from '../../utils/auth';
+import { Circle } from '@phosphor-icons/react';
 
-let testEventArray = [{
-  title: "Haircut",
-  date: "2024-02-01",
-  startTime: "12:30am",
-  endTime: "2pm",
-  description: "this is a test event",
-  location: "at the place in roseville",
-  color: "red",
-  allDay: false,
-  recurring: false,
-  recurringDays: [],
-  recurringEnds: false,
-  recurringFrequency: "",
-  recurringStartDate: "",
-  recurringEndDate: "",
-  recurringType: "",
-  userId: "6160b4b4b8b7d4b4a0f3b3b4",
-  __typename: "Event"
-},
-{
-  title: "test event",
-  date: "2024-02-12",
-  startTime: "12:00",
-  endTime: "13:00",
-  description: "this is a test event",
-  location: "test location",
-  color: "red",
-  allDay: false,
-  recurring: false,
-  recurringDays: [],
-  recurringEnds: false,
-  recurringFrequency: "",
-  recurringStartDate: "",
-  recurringEndDate: "",
-  recurringType: "",
-  userId: "6160b4b4b8b7d4b4a0f3b3b4",
-  __typename: "Event"
-},
 
-]
 
 const Week = ({ date }) => {
 const navigate = useNavigate();
@@ -59,6 +21,9 @@ const navigate = useNavigate();
 
 const [events, setEvents] = useState([]);
 const [dataFromQuery, setDataFromQuery] = useState([]);
+const [eventDate, setEventDate ] = useState(date)
+const [waitForContent, setWaitForContent] = useState(true);
+const [daySections, setDaySections] = useState([]);
 
 
 const { loading, data } = useQuery(QUERY_EVENT_BY_USERNAME, {
@@ -67,25 +32,37 @@ const { loading, data } = useQuery(QUERY_EVENT_BY_USERNAME, {
 
 
 useEffect(() => {
-  if (loading === false && data) {
+  if (!loading && data) {
+    console.log(data)
     setDataFromQuery(data);
   }
 }, [loading, data]); // Add loading to the dependency array to respond to loading state changes
 
  useEffect(() => {
+    if (dataFromQuery.eventsByUsername) {
    console.log(dataFromQuery.eventsByUsername);
+   console.log(dataFromQuery.eventsByUsername);
+   setEvents(dataFromQuery.eventsByUsername);
+
+    }
  }, [dataFromQuery]);
 
+  useEffect(() => {
+    if (events[0]) {
+      console.log(events[0]);    
+    }
+  }, [events]);
 
+////////////////////////Initializations////////////////////////
 let range = myWeek.range;
  // Establish date info and get week info
  myWeek.establishDateInfo();
  let weekArray = myWeek.getWeekInfo();
  let weekNumber = myWeek.getWeekNumber();
- console.log(`
- ~~~~~~~~~~~~~~~~~
- week number: ${weekNumber}
- ~~~~~~~~~~~~~~~~~`);
+//  console.log(`
+//  ~~~~~~~~~~~~~~~~~
+//  week number: ${weekNumber}
+//  ~~~~~~~~~~~~~~~~~`);
  // Define days of the week
  const days = [ 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat','Sun'];
  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -93,7 +70,14 @@ let range = myWeek.range;
  // Initialize datesArray
  let datesArray = [];
 
+
+ ////////////////////////Populate datesArray////////////////////////
  // Loop through weekArray to populate datesArray
+ //this is going to need to happen when data is brought in and will need to show a loading screen white it is happening....  
+ useEffect(() => {
+  setDaySections([]);
+  console.log(events);
+
  for (let i = 0; i < weekArray.length; i++) {
     let dateObject = {
       event: false,
@@ -101,24 +85,36 @@ let range = myWeek.range;
       day: +weekArray[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3],
       events: []
     };
+console.log(`weekArray: ${weekArray[i]} `)
 
     // Loop through testEventArray to check if there are events on the current date
-    for (let j = 0; j < testEventArray.length; j++) {
-      if (weekArray[i] === testEventArray[j].date) {
+let matchedDay = weekArray[i].match(/(\d{4})-(\d{2})-(\d{2})/);
+let unhashedDay =  matchedDay[1]+matchedDay[2]+matchedDay[3];
+console.log(`unhashedDay: ${unhashedDay}`);
+
+
+
+    for (let j = 0; j < events.length; j++) {
+      let matchedEventDay = events[j].eventDate.match(/(\d{4})-(\d{2})-(\d{2})/);
+      let unhashedEventDay =  matchedEventDay[1]+matchedEventDay[2]+matchedEventDay[3];
+      console.log(`event: ${events[j].eventDate} `)
+      if (unhashedDay === unhashedEventDay) {
+        console.log(`event on ${weekArray[i]}`);
         dateObject.event = true;
         dateObject.date = weekArray[i];
         dateObject.day = +weekArray[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3];
-        dateObject.events.push(testEventArray[j]);
+        dateObject.events.push(events[j]);
       }
     }
 
     datesArray.push(dateObject);
  }
 
+console.log(datesArray);
  // Generate day sections
- let daySections = [];
+ 
  for (let i = 0; i <= weekArray.length - 1; i++) {
-    daySections.push(
+   let daySection = (
       <div key={i} className="flex flex-row border-t border-b border-content w-full h-full hover:bg-accent-3 hover:cursor-pointer "  onClick={()=> navigate(`/day/${datesArray[i].date}`)}>
         <div className="ml-8 flex flex-col font-light w-1/6">
           <p className='text-sm'>{days[i]}</p>
@@ -126,12 +122,12 @@ let range = myWeek.range;
         </div>
 
         <div className=" flex flex-col pt pb text-xs ">
-          <p className='text-sm' style={{ minHeight: '17px' }}>
-            {datesArray[i].events[0]?.title || null}
-          </p>
+          <div className='text-sm' style={{ minHeight: '17px' }}>
+          {datesArray[i].events[0] ? <h1>{datesArray[i].events[0].eventTitle}</h1> : null}
+          </div>
 
           <p style={{ minHeight: '17px' }}>
-            {datesArray[i].events[0]?.startTime ? `${datesArray[i].events[0]?.startTime}-${datesArray[i].events[0]?.endTime}` : null}
+            {datesArray[i].events[0]?.eventStartTime &&  datesArray[i].events[0]?.eventEndTime ? `${datesArray[i].events[0]?.eventStartTime}-${datesArray[i].events[0]?.eventEndTime}` : null}
           </p>
 
           <p style={{ minHeight: '17px' }}>
@@ -144,9 +140,15 @@ let range = myWeek.range;
         </div>
       </div>
     );
+    setDaySections(daySections => [...daySections, daySection]);
  }
-console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
- console.log(months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1])
+ setWaitForContent(false);
+
+
+}, [events]);
+
+// console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
+//  console.log(months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1])
 
  return (
 
@@ -156,7 +158,8 @@ console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
           <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer' onClick={()=> navigate(`/month/${myWeek.year}${myWeek.month}01`)}>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1]}</h2>
           <h2 className='text-sm mt-3'>week {weekNumber}</h2>
         </div>
-        {daySections}
+        {waitForContent ? <h1 className='h-full'>Loading...</h1> : daySections}
+        
         <div className='flex justify-center border-t-2 border-accent-2 '>
         <h1 className='hover:bg-accent-1 border-2 border-transparent rounded-lg active:border-accent-2  cursor-pointer flex justify-center text-2xl font-thin mt-5 p-2 w-1/5' onClick={()=> navigate(`/year/${myWeek.year}0101`)}>{myWeek.year}</h1>
         </div>

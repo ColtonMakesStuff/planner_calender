@@ -63,5 +63,8 @@ query Query($username: String!) {
   eventsByUsername(username: $username) {
     eventDate
     eventColor
+    eventTitle
+    eventStartTime
+    eventEndTime
   }
 }`

@@ -53,33 +53,34 @@ const username = Auth.getProfile().data.username
     variables: { username, eventDate: date },
 });
 useEffect(() => {
-    if (data) {
-    if (data.eventByDate) {
-        setAlreadyExists(true);
-        console.log(data);
-        if (data.eventByDate._id){
-            setEventTitle(data.eventByDate.eventTitle)
-            setStartTime(data.eventByDate.eventStartTime)
-            setEndTime(data.eventByDate.eventEndTime)
-            setLocation(data.eventByDate.eventLocation)
-            setDescription(data.eventByDate.eventDescription)
-            setColor(data.eventByDate.eventColor)
-            setEventId(data.eventByDate._id)
-            console.log(eventId);
-        }
-    } else {
-        console.log('no event for this date');    
-        setEventTitle('')
-        setStartTime('')
-        setEndTime('')
-        setLocation('')
-        setDescription('')
-        setColor('') 
-        setEventId('')
-}
-}
-
-}, [data]);
+    if (!loading && data) {
+      // Assuming data.eventByDate is the correct path to your data
+      const eventData = data.eventByDate || {};
+      setAlreadyExists(!!eventData._id);
+      console.log(data);
+  
+      if (eventData._id) {
+        setEventTitle(eventData.eventTitle);
+        setStartTime(eventData.eventStartTime);
+        setEndTime(eventData.eventEndTime);
+        setLocation(eventData.eventLocation);
+        setDescription(eventData.eventDescription);
+        setColor(eventData.eventColor);
+        setEventId(eventData._id);
+        console.log(eventId);
+      } else {
+        console.log('No event for this date');
+        setEventTitle('');
+        setStartTime('');
+        setEndTime('');
+        setLocation('');
+        setDescription('');
+        setColor('');
+        setEventId('');
+      }
+    }
+  }, [loading, data]); // Add loading to the dependency array
+  
 
 
   const handleColorChange = (color) => {
@@ -112,7 +113,7 @@ useEffect(() => {
             catch (err) {
                 console.error(err);
                 }
-                
+
     } else {
     try {
       const { data } = await addEvent({
