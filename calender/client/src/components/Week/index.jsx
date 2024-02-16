@@ -10,6 +10,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_EVENT_BY_USERNAME } from '../../utils/queries';
 import Auth from '../../utils/auth';
 import { Circle } from '@phosphor-icons/react';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -19,16 +20,32 @@ const navigate = useNavigate();
  let myWeek = new DateRangeInfo({ selectedDate, range: "week" });
  const username = Auth.getProfile().data.username
 
+ const params = useParams();
+
+  // Initialize your state variable with the parameter value
+  const [paramValue, setParamValue] = useState(params);
+
+  // If you need to update the state when the parameter changes,
+  // you can use the useEffect hook
+  useEffect(() => {
+    setParamValue(params)
+    console.log(params);
+  }, [params]);
+
 const [events, setEvents] = useState([]);
 const [dataFromQuery, setDataFromQuery] = useState([]);
 const [eventDate, setEventDate ] = useState(date)
 const [waitForContent, setWaitForContent] = useState(true);
 const [daySections, setDaySections] = useState([]);
 
-
 const { loading, data } = useQuery(QUERY_EVENT_BY_USERNAME, {
   variables: { username }
 });
+
+useEffect(() => {
+//I NEED TO RERENDER THE PAGE WHEN THE PARAMS CHANGE
+
+}, [paramValue]); // Add loading to the dependency array to respond to loading state changes
 
 
 useEffect(() => {
@@ -119,11 +136,12 @@ console.log(datesArray);
         <div className="ml-8 flex flex-col font-light w-1/6">
           <p className='text-sm'>{days[i]}</p>
           <p>{+weekArray[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3]}</p>
+          {datesArray[i].events[0]?.eventColor ? <Circle size={20} color={datesArray[i].events[0]?.eventColor} weight="fill" className='border-2 rounded-full border-black'/> : null}
         </div>
 
         <div className=" flex flex-col pt pb text-xs ">
           <div className='text-sm' style={{ minHeight: '17px' }}>
-          {datesArray[i].events[0] ? <h1>{datesArray[i].events[0].eventTitle}</h1> : null}
+          {datesArray[i].events[0] ?         <h1>{datesArray[i].events[0].eventTitle}</h1> : null}
           </div>
 
           <p style={{ minHeight: '17px' }}>
@@ -133,9 +151,11 @@ console.log(datesArray);
           <p style={{ minHeight: '17px' }}>
             {datesArray[i].events[0]?.location || null}
           </p>
-        </div>
 
+
+        </div>
         <div className='ml-auto mr-8 mt-2'>
+          
           <Pencil size={36} color="#563c1f" weight="thin" className='hover:bg-accent-1 p-1 rounded-md border border-transparent active:border active:border-bkg-1 hover:cursor-pointer active:p-1' />
         </div>
       </div>
@@ -145,7 +165,7 @@ console.log(datesArray);
  setWaitForContent(false);
 
 
-}, [events]);
+}, [events, paramValue]);
 
 // console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
 //  console.log(months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1])
