@@ -6,6 +6,8 @@ import HandleIncrement from '../HandleIncrement';
 import { QUERY_EVENT_BY_USERNAME } from '../../utils/queries';
 import { useQuery } from '@apollo/client';
 import Auth from '../../utils/auth';
+import { Circle } from '@phosphor-icons/react';
+
 
 
 let testEventArray = [{
@@ -128,29 +130,37 @@ let blanksArray = Array(blanks).fill({
 });
 
 let datesArray=[]
+
+// useEffect(() => {
+//   setDaySections([]);
+//   console.log(events);
+
 for (let i = 0; i < dateList.length; i++) {
   let dateObject;
+  let matchedDay = dateList[i].match(/(\d{4})-(\d{2})-(\d{2})/);
+  let unhashedDay =  matchedDay[1]+matchedDay[2]+matchedDay[3];
   dateObject = {
     event: false,
     date: dateList[i],
     day: + dateList[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3],
+    events: []
   }
-  // THIS NEEDS TO BE REFACTORED WHEN ACTUAL DATA IS BEING BROUGHT IN!!!!
-  for (let j = 0; j < testEventArray.length; j++) {
-    if (dateList[i] === testEventArray[j].date) {
-      dateObject = {
-        event: true,
-        date: dateList[i],
-        day: +dateList[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3],
-        
-        events: testEventArray[j]
-      }
+  for (let j = 0; j < events.length; j++) {
+    let matchedEventDay = events[j].eventDate.match(/(\d{4})-(\d{2})-(\d{2})/);
+    let unhashedEventDay =  matchedEventDay[1]+matchedEventDay[2]+matchedEventDay[3];
+    if (unhashedDay === unhashedEventDay) {
+      dateObject.event = true;
+      dateObject.date = dateList[i];
+      dateObject.day = +dateList[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3];
+      dateObject.events.push(events[j]);
     }
   }
-  datesArray.push(dateObject)
+  datesArray.push(dateObject);
 }
+console.log(datesArray);
 
 monthAtAGlance = [...blanksArray, ...datesArray];
+console.log(monthAtAGlance);
 
 
 const dateSquares = Array.from({ length: 42 }).map((_, i) => (
@@ -169,7 +179,7 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
      <div className="flex flex-col justify-center h-full">
          <div className="flex justify-center" >
            {/* THIS NEEDS TO BE REFACTORED WHEN ACTUAL DATA IS BEING BROUGHT IN!!!! */}
-           {monthAtAGlance[i]?.event ? <div className='w-[calc(3vw)] h-[calc(3vw)] rounded-full mt-1' style={{backgroundColor: `${monthAtAGlance[i].events.color}`}}></div> : <h3></h3>}
+           {monthAtAGlance[i]?.event ? <div className='w-[calc(3vw)] h-[calc(3vw)] border-2 border-black rounded-full mt-1' style={{backgroundColor: `${monthAtAGlance[i].events[0].eventColor}`}}></div> : <h3></h3>}
            {/* */}
          </div>
          <div className="mt-auto flex justify-center">
@@ -184,7 +194,6 @@ const dateSquares = Array.from({ length: 42 }).map((_, i) => (
     {day}
   </h3>
 ))
-
 
 
     return (
