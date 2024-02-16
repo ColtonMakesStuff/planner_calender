@@ -1,8 +1,12 @@
 import classes from './index.module.css';
 import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import HandleIncrement from '../HandleIncrement';
+import { QUERY_EVENT_BY_USERNAME } from '../../utils/queries';
+import { useQuery } from '@apollo/client';
+import Auth from '../../utils/auth';
+
 
 let testEventArray = [{
   title: "test event",
@@ -49,6 +53,8 @@ let testEventArray = [{
 
 const Month = ({date}) => {
 const navigate = useNavigate();
+const username = Auth.getProfile().data.username;
+const params = useParams();
 
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
 let myMonth = new DateRangeInfo({selectedDate: date, range: "month"});
@@ -56,7 +62,55 @@ let range = myMonth.range;
 console.log(myMonth.selectedDate)
 myMonth.establishDateInfo()
 
-// i need to find  the currnt day and set it to be highlighted if it is represented in the calender period being shown
+// State variables
+const [paramValue, setParamValue] = useState(params);
+const [events, setEvents] = useState([]);
+const [dataFromQuery, setDataFromQuery] = useState([]);
+const [waitForContent, setWaitForContent] = useState(true);
+const [daySections, setDaySections] = useState([]);
+
+// Apollo Client query setup
+const { loading, data, refetch } = useQuery(QUERY_EVENT_BY_USERNAME, {
+  variables: { username },
+  enabled: true, // This will let the query run on mount
+});
+
+// Refetch function to be called when needed
+const handleRefetch = () => {
+  refetch();
+};
+
+// Effect to update paramValue state when params change
+useEffect(() => {
+  setParamValue(params);
+}, [params]);
+
+// Effect to refetch data when paramValue changes
+useEffect(() => {
+  handleRefetch();
+}, [paramValue]);
+
+// Effect to update dataFromQuery state when loading or data changes
+useEffect(() => {
+  if (!loading && data) {
+    setDataFromQuery(data);
+  }
+}, [loading, data]);
+
+// Effect to update events state when dataFromQuery changes
+useEffect(() => {
+  if (dataFromQuery.eventsByUsername) {
+    setEvents(dataFromQuery.eventsByUsername);
+  }
+}, [dataFromQuery]);
+
+// Effect to log the first event when events change
+useEffect(() => {
+  if (events[0]) {
+    console.log(events);
+  }
+}, [events]);
+
 
 //this part will set the layout of the calender
 console.log(myMonth.day);
