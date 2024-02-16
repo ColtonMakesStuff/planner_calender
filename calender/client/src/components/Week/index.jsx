@@ -1,141 +1,116 @@
-import classes from './index.module.css';
-import { useState, useEffect } from 'react';
-import DateRangeInfo from '../../utils/dateInfo';
-import { Pencil } from '@phosphor-icons/react';
-import { Note } from '@phosphor-icons/react';
-import HandleIncrement from '../HandleIncrement';
-import { useNavigate } from 'react-router-dom';
-import Day from '../Day';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { QUERY_EVENT_BY_USERNAME } from '../../utils/queries';
+import DateRangeInfo from '../../utils/dateInfo';
 import Auth from '../../utils/auth';
 import { Circle } from '@phosphor-icons/react';
-import { useParams } from 'react-router-dom';
-
-
+import { Pencil } from '@phosphor-icons/react';
+import HandleIncrement from '../HandleIncrement';
+import Day from '../Day';
+import { QUERY_EVENT_BY_USERNAME } from '../../utils/queries';
 
 const Week = ({ date }) => {
-const navigate = useNavigate();
- const selectedDate = date;
- let myWeek = new DateRangeInfo({ selectedDate, range: "week" });
- const username = Auth.getProfile().data.username
+  // Navigation and authentication
+  const navigate = useNavigate();
+  const username = Auth.getProfile().data.username;
+  const params = useParams();
 
- const params = useParams();
+  // Date and week information
+  const selectedDate = date;
+  const myWeek = new DateRangeInfo({ selectedDate, range: "week" });
+  const days = ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-  // Initialize your state variable with the parameter value
+  // State variables
   const [paramValue, setParamValue] = useState(params);
+  const [events, setEvents] = useState([]);
+  const [dataFromQuery, setDataFromQuery] = useState([]);
+  const [waitForContent, setWaitForContent] = useState(true);
+  const [daySections, setDaySections] = useState([]);
 
-  // If you need to update the state when the parameter changes,
-  // you can use the useEffect hook
+  // Apollo Client query setup
+  const { loading, data, refetch } = useQuery(QUERY_EVENT_BY_USERNAME, {
+    variables: { username },
+    enabled: true, // This will let the query run on mount
+  });
+
+  // Refetch function to be called when needed
+  const handleRefetch = () => {
+    refetch();
+  };
+
+  // Effect to update paramValue state when params change
   useEffect(() => {
-    setParamValue(params)
-    console.log(params);
+    setParamValue(params);
   }, [params]);
 
-const [events, setEvents] = useState([]);
-const [dataFromQuery, setDataFromQuery] = useState([]);
-const [eventDate, setEventDate ] = useState(date)
-const [waitForContent, setWaitForContent] = useState(true);
-const [daySections, setDaySections] = useState([]);
+  // Effect to refetch data when paramValue changes
+  useEffect(() => {
+    handleRefetch();
+  }, [paramValue]);
 
-const { loading, data, refetch } = useQuery(QUERY_EVENT_BY_USERNAME, {
-  variables: { username },
-  enabled: true, // This will prevent the query from running on mount
-});
-const handleRefetch = () => {
-//this is wher i will need to refetch the data}
-
-refetch();
-}
-
-useEffect(() => {
-//I NEED TO RERENDER THE PAGE WHEN THE PARAMS CHANGE
-handleRefetch();
-}, [paramValue]); // Add loading to the dependency array to respond to loading state changes
-
-
-useEffect(() => {
-  if (!loading && data) {
-    console.log(data)
-    setDataFromQuery(data);
-  }
-}, [loading, data]); // Add loading to the dependency array to respond to loading state changes
-
- useEffect(() => {
-    if (dataFromQuery.eventsByUsername) {
-   console.log(dataFromQuery.eventsByUsername);
-   console.log(dataFromQuery.eventsByUsername);
-   setEvents(dataFromQuery.eventsByUsername);
-
+  // Effect to update dataFromQuery state when loading or data changes
+  useEffect(() => {
+    if (!loading && data) {
+      setDataFromQuery(data);
     }
- }, [dataFromQuery]);
+  }, [loading, data]);
 
+  // Effect to update events state when dataFromQuery changes
+  useEffect(() => {
+    if (dataFromQuery.eventsByUsername) {
+      setEvents(dataFromQuery.eventsByUsername);
+    }
+  }, [dataFromQuery]);
+
+  // Effect to log the first event when events change
   useEffect(() => {
     if (events[0]) {
-      console.log(events[0]);    
+      console.log(events[0]);
     }
   }, [events]);
 
-////////////////////////Initializations////////////////////////
 let range = myWeek.range;
- // Establish date info and get week info
- myWeek.establishDateInfo();
- let weekArray = myWeek.getWeekInfo();
- let weekNumber = myWeek.getWeekNumber();
-//  console.log(`
-//  ~~~~~~~~~~~~~~~~~
-//  week number: ${weekNumber}
-//  ~~~~~~~~~~~~~~~~~`);
- // Define days of the week
- const days = [ 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat','Sun'];
- const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
- // Initialize datesArray
- let datesArray = [];
+// Establish date info and get week info
+myWeek.establishDateInfo();
 
+let weekArray = myWeek.getWeekInfo();
+let weekNumber = myWeek.getWeekNumber();
 
- ////////////////////////Populate datesArray////////////////////////
- // Loop through weekArray to populate datesArray
- //this is going to need to happen when data is brought in and will need to show a loading screen white it is happening....  
- useEffect(() => {
-  setDaySections([]);
-  console.log(events);
+// Initialize datesArray
+let datesArray = [];
 
+useEffect(() => {
+setDaySections([]);
+console.log(events);
+
+// Create datesArray
+// This part will set the layout of the week
  for (let i = 0; i < weekArray.length; i++) {
+    let matchedDay = weekArray[i].match(/(\d{4})-(\d{2})-(\d{2})/);
+    let unhashedDay =  matchedDay[1]+matchedDay[2]+matchedDay[3];
     let dateObject = {
       event: false,
       date: weekArray[i],
       day: +weekArray[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3],
       events: []
     };
-console.log(`weekArray: ${weekArray[i]} `)
-
-    // Loop through testEventArray to check if there are events on the current date
-let matchedDay = weekArray[i].match(/(\d{4})-(\d{2})-(\d{2})/);
-let unhashedDay =  matchedDay[1]+matchedDay[2]+matchedDay[3];
-console.log(`unhashedDay: ${unhashedDay}`);
-
-
-
+// match the date of the event to the date of the day
     for (let j = 0; j < events.length; j++) {
       let matchedEventDay = events[j].eventDate.match(/(\d{4})-(\d{2})-(\d{2})/);
       let unhashedEventDay =  matchedEventDay[1]+matchedEventDay[2]+matchedEventDay[3];
-      console.log(`event: ${events[j].eventDate} `)
       if (unhashedDay === unhashedEventDay) {
-        console.log(`event on ${weekArray[i]}`);
         dateObject.event = true;
         dateObject.date = weekArray[i];
         dateObject.day = +weekArray[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3];
         dateObject.events.push(events[j]);
       }
     }
-
     datesArray.push(dateObject);
  }
-
-console.log(datesArray);
- // Generate day sections
  
+// Create daySections
  for (let i = 0; i <= weekArray.length - 1; i++) {
    let daySection = (
       <div key={i} className="flex flex-row border-t border-b border-content w-full h-full hover:bg-accent-3 hover:cursor-pointer "  onClick={()=> navigate(`/day/${datesArray[i].date}`)}>
@@ -158,7 +133,6 @@ console.log(datesArray);
             {datesArray[i].events[0]?.location || null}
           </p>
 
-
         </div>
         <div className='ml-auto mr-8 mt-2'>
           
@@ -166,19 +140,14 @@ console.log(datesArray);
         </div>
       </div>
     );
+    // add the day section to the daySections array
     setDaySections(daySections => [...daySections, daySection]);
  }
+ // set waitForContent to false so the content will render
  setWaitForContent(false);
-
-
 }, [events, paramValue]);
 
-// console.log(selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1)
-//  console.log(months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1])
-
  return (
-
-
   <>
         <div className='flex pb-4 pl-7 pr-8 text-xl font-extralight justify-between border-b-2 border-accent-2 '>
           <h2 className='hover:bg-accent-1 p-1 rounded-md border border-bkg-2 active:border active:border-accent-2 active:p-1 hover:cursor-pointer' onClick={()=> navigate(`/month/${myWeek.year}${myWeek.month}01`)}>{months[+selectedDate.match(/(\d{4})-(\d{2})-(\d{2})/)[2]-1]}</h2>
