@@ -43,7 +43,6 @@ console.log(today); // Outputs the current date in the format mm/dd/yyyy
 
       Auth.login(data.login.token);
 
-      navigate(`/year/${today}`)
     } catch (e) {
       console.error(e);
     }
@@ -64,21 +63,19 @@ console.log(today); // Outputs the current date in the format mm/dd/yyyy
       <div className='flex justify-center mt-2'>
            <h4 className=" flex align-center " style={{ fontSize: '2rem' }}>Login</h4>
            </div>
+
+          
+
            <div className="h-full">
-             {data ? (
-               <p>
-                 Success! You may now head{' '}
-                 <Link to="/">back to the homepage.</Link>
-               </p>
-             ) : (
+          
                <Login handleChange={handleChange} handleFormSubmit={handleFormSubmit} formState={formState} />
-             )}
    
              {error && (
                <div className=" text-white">
                  {error.message}
                </div>
              )}
+              <p className='flex justify-center hover:underline mt-4 active:text-white' onClick={()=> navigate(`/signup`)}>Create Account</p>
        </div>
     </main>
    );

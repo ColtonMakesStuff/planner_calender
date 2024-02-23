@@ -49,8 +49,6 @@ const SignupPage = () => {
 
       Auth.login(data.addUser.token);
 
-      navigate(`/year/${today}`)
-
     } catch (e) {
       console.error(e);
     }
@@ -69,14 +67,8 @@ const SignupPage = () => {
        <div className="col-12 col-lg-10">
          <div className="card">
            <div className="card-body">
-             {data ? (
-               <p>
-                 Success! You may now head{' '}
-                 <Link to="/">back to the homepage.</Link>
-               </p>
-             ) : (
+             
                <Signup handleChange={handleChange} handleFormSubmit={handleFormSubmit} formState={formState} />
-             )}
    
              {error && (
                <div className="text-white">
@@ -86,6 +78,7 @@ const SignupPage = () => {
            </div>
          </div>
        </div>
+       <p className='flex justify-center hover:underline mt-4 active:text-white' onClick={()=> navigate(`/login`)}>Already have an account? Login</p>
     </div>
    </main>
    

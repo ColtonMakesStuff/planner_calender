@@ -15,6 +15,15 @@ const Year = ({date}) => {
 const navigate = useNavigate();
 const username = Auth.getProfile().data.username;
 const params = useParams();
+// i need to make it so if usererparams is blank it will have the current date be the default used
+const currentDate = new Date();
+console.log(`current date: ${currentDate}`);
+// I need to break the date out into 
+let year = currentDate.getFullYear();
+let month = currentDate.getMonth() + 1;
+let day = currentDate.getDate();
+let dateString = `${year}0101`;
+
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
 
 let myMonth = new DateRangeInfo({selectedDate: date, range: "year"});

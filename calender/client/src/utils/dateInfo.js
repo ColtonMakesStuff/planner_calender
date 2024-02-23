@@ -24,8 +24,9 @@ class DateRangeInfo {
        this.year = match[1]; 
        this.month = match[2]; 
        this.day = match[3];
-       console.log(`year: ${this.year}, month: ${this.month}, day: ${this.day}`)
+      //  console.log(`year: ${this.year}, month: ${this.month}, day: ${this.day}`)
     }
+   
    
     establishDateInfo() {
        // Method to initialize the start date, split the date, and get the number of days in the selected month
@@ -33,7 +34,7 @@ class DateRangeInfo {
        this.splitDate();
        this.daysInMonth = this.getDaysInMonth(this.year, this.month);
        this.dayOfWeek = this.getDayOfWeek(this.startDate);
-       console.log(`there are ${this.daysInMonth} days in the month of ${this.month}`);
+      //  console.log(`there are ${this.daysInMonth} days in the month of ${this.month}`);
     }
    
     getMonthsInYear() {
