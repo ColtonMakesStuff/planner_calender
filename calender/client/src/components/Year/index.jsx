@@ -1,57 +1,20 @@
 import { useState, useEffect } from 'react';
 import DateRangeInfo from '../../utils/dateInfo';
 import classes from './index.module.css';
-import { useParams } from "react-router-dom";
 import HandleIncrement from '../HandleIncrement';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Auth from '../../utils/auth';
+import { useQuery } from '@apollo/client';
+import { QUERY_EVENT_BY_USERNAME } from '../../utils/queries';
 
-
-let testEventArray = [{
-  title: "test event",
-  date: "2024-02-01",
-  startTime: "12:00",
-  endTime: "13:00",
-  description: "this is a test event",
-  location: "test location",
-  color: "red",
-  allDay: false,
-  recurring: false,
-  recurringDays: [],
-  recurringEnds: false,
-  recurringFrequency: "",
-  recurringStartDate: "",
-  recurringEndDate: "",
-  recurringType: "",
-  userId: "6160b4b4b8b7d4b4a0f3b3b4",
-  __typename: "Event"
-},
-{
-  title: "test event",
-  date: "2024-02-02",
-  startTime: "12:00",
-  endTime: "13:00",
-  description: "this is a test event",
-  location: "test location",
-  color: "red",
-  allDay: false,
-  recurring: false,
-  recurringDays: [],
-  recurringEnds: false,
-  recurringFrequency: "",
-  recurringStartDate: "",
-  recurringEndDate: "",
-  recurringType: "",
-  userId: "6160b4b4b8b7d4b4a0f3b3b4",
-  __typename: "Event"
-},
-
-]
 
 // 
 
 const Year = ({date}) => {
 
 const navigate = useNavigate();
+const username = Auth.getProfile().data.username;
+const params = useParams();
   //WHEN GENERATING THE MONTH I NEED TO MAKE SURE THAT THE DATE BROUGHT IN IS THE FIRST OF THE MONTH
 
 let myMonth = new DateRangeInfo({selectedDate: date, range: "year"});
@@ -62,6 +25,57 @@ let firstDay = myMonth.getNameOfDay();
 let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ];  
 let miniDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 let dateList = myMonth.getDatesInMonth();
+
+const [paramValue, setParamValue] = useState(params);
+const [events, setEvents] = useState([]);
+const [dataFromQuery, setDataFromQuery] = useState([]);
+const [waitForContent, setWaitForContent] = useState(true);
+const [daySections, setDaySections] = useState([]);
+
+// Apollo Client query setup
+const { loading, data, refetch } = useQuery(QUERY_EVENT_BY_USERNAME, {
+  variables: { username },
+  enabled: true, // This will let the query run on mount
+});
+
+// Refetch function to be called when needed
+const handleRefetch = () => {
+  refetch();
+};
+
+// Effect to update paramValue state when params change
+useEffect(() => {
+  setParamValue(params);
+}, [params]);
+
+// Effect to refetch data when paramValue changes
+useEffect(() => {
+  handleRefetch();
+}, [paramValue]);
+
+// Effect to update dataFromQuery state when loading or data changes
+useEffect(() => {
+  if (!loading && data) {
+    setDataFromQuery(data);
+  }
+}, [loading, data]);
+
+// Effect to update events state when dataFromQuery changes
+useEffect(() => {
+  if (dataFromQuery.eventsByUsername) {
+    setEvents(dataFromQuery.eventsByUsername);
+  }
+}, [dataFromQuery]);
+
+// Effect to log the first event when events change
+useEffect(() => {
+  if (events[0]) {
+    console.log(events);
+  }
+}, [events]);
+
+
+
 
 //this part will set the layout of the calender
 let monthSquares=[]
@@ -84,27 +98,30 @@ for (let i = 0; i < myMonths.length; i++) {
     });
 
     let datesArray=[]
+
     for (let i = 0; i < dateList.length; i++) {
       let dateObject;
+      let matchedDay = dateList[i].match(/(\d{4})-(\d{2})-(\d{2})/);
+      let unhashedDay =  matchedDay[1]+matchedDay[2]+matchedDay[3];
       dateObject = {
         event: false,
         date: dateList[i],
         day: + dateList[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3],
+        events: []
       }
-      // THIS NEEDS TO BE REFACTORED WHEN ACTUAL DATA IS BEING BROUGHT IN!!!!
-      for (let j = 0; j < testEventArray.length; j++) {
-        if (dateList[i] === testEventArray[j].date) {
-          dateObject = {
-            event: true,
-            date: dateList[i],
-            day: +dateList[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3],
-            
-            events: testEventArray[j]
-          }
+      for (let j = 0; j < events.length; j++) {
+        let matchedEventDay = events[j].eventDate.match(/(\d{4})-(\d{2})-(\d{2})/);
+        let unhashedEventDay =  matchedEventDay[1]+matchedEventDay[2]+matchedEventDay[3];
+        if (unhashedDay === unhashedEventDay) {
+          dateObject.event = true;
+          dateObject.date = dateList[i];
+          dateObject.day = +dateList[i].match(/(\d{4})-(\d{2})-(\d{2})/)[3];
+          dateObject.events.push(events[j]);
         }
       }
-      datesArray.push(dateObject)
+      datesArray.push(dateObject);
     }
+    console.log(datesArray);
     
     monthAtAGlance = [...blanksArray, ...datesArray];
     const dateSquares = Array.from({ length: 42 }).map((_, j) => (

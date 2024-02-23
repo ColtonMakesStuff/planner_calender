@@ -9,48 +9,6 @@ import Auth from '../../utils/auth';
 import { Circle } from '@phosphor-icons/react';
 
 
-
-let testEventArray = [{
-  title: "test event",
-  date: "2024-02-01",
-  startTime: "12:00",
-  endTime: "13:00",
-  description: "this is a test event",
-  location: "test location",
-  color: "red",
-  allDay: false,
-  recurring: false,
-  recurringDays: [],
-  recurringEnds: false,
-  recurringFrequency: "",
-  recurringStartDate: "",
-  recurringEndDate: "",
-  recurringType: "",
-  userId: "6160b4b4b8b7d4b4a0f3b3b4",
-  __typename: "Event"
-},
-{
-  title: "test event",
-  date: "2024-02-12",
-  startTime: "12:00",
-  endTime: "13:00",
-  description: "this is a test event",
-  location: "test location",
-  color: "blue",
-  allDay: false,
-  recurring: false,
-  recurringDays: [],
-  recurringEnds: false,
-  recurringFrequency: "",
-  recurringStartDate: "",
-  recurringEndDate: "",
-  recurringType: "",
-  userId: "6160b4b4b8b7d4b4a0f3b3b4",
-  __typename: "Event"
-},
-
-]
-
 // 
 
 const Month = ({date}) => {
